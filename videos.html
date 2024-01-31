@@ -1,0 +1,200 @@
+<html>
+    <link rel="icon" href="images/brain_icon.png">
+
+    <header>
+        <title>Videos</title>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300&display=swap" rel="stylesheet">        
+        <link rel="stylesheet" href="styles/video_styles.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        
+    </header>
+    <body onload = "generateVideoList()">
+
+        <!-- Navbar on small screens (remove the onclick attribute if you want the navbar to always show on top of the content when clicking on the links) -->
+        <div class="hide_desktops">
+            <!-- Navbar on small screens (remove the onclick attribute if you want the navbar to always show on top of the content when clicking on the links) -->
+            <div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none; margin-top:0px; width:500px; background-color: #EDF2F4;" id="mySidebar">
+                <div class="side-bar">
+                    <a href="javascript:void(0)" onclick="w3_close()" class="sidebar_item">Close X</a>
+                    <a href="./resources.html" onclick="w3_close()" class="sidebar_item">Resources</a>
+                    <a href="./about.html" onclick="w3_close()" class="sidebar_item">About Us</a>
+                    <a href="./contact.html" onclick="w3_close()" class="sidebar_item">Contact Us</a>
+                    <a href="./contributors.html" onclick="w3_close()" class="sidebar_item">Contributors</a>
+                    <a href="./videos.html" onclick="w3_close()" class="sidebar_item">Videos</a>
+                    <a href="./blog.html" onclick="w3_close()" class="sidebar_item">Blog</a>
+                    <a href="https://forms.gle/9r9pPR4xELyxDdUG8" onclick="w3_close()" class="sidebar_item">Submit a Question</a>
+                    <a href="https://forms.gle/HiNRJsNdJRS5engw6" onclick="w3_close()" class="sidebar_item">Feedback</a>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="navigation_bar">
+            <div class="navbar_container">
+                <div class="navigation_bar_items">
+                <a href="./index.html" class="navigation_bar_item">Home</a>
+                    <span class="show_on_desktops">
+                        <a href="./about.html" class="hide_mobile navigation_bar_item">About Us</a>
+                        <a href="./contributors.html" class="hide_mobile navigation_bar_item">Contributors</a>
+                        <div class="dropdown">
+                            <a href="./contact.html" class="navigation_bar_item dropbtn">Contact Us <i class="fa fa-caret-down"></i></a>
+                            <div class="dropdown-content">
+                                <a href="https://forms.gle/9r9pPR4xELyxDdUG8">Submit a Question</a>
+                                <a href="https://forms.gle/HiNRJsNdJRS5engw6">Feedback</a>
+                            </div>
+                        </div>
+                        <div class="dropdown">
+                            <a href="./resources.html" class="hide_mobile navigation_bar_item">Resources <i class="fa fa-caret-down"></i></a>
+                            <div class="dropdown-content">
+                                <a href="./videos.html">Videos</a>
+                                <a href="./blog.html">Blog</a>
+                            </div>
+                        </div>
+                    </span>
+                <a class="hide_desktops navigation_bar_item hamburger_menu" href="javascript:void(0)" onclick="w3_open()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+                </div>
+            </div>
+          </div>
+
+          <!--Contributors section-->
+          <div class="section_container">
+            <div class="contributors_section">
+                <p class="section_title">Videos</p>
+                <p class="section_text">Dedicated to making high-quality, free videos for medical student education.</p>
+                <div id= "video-grid"></div>
+
+            </div>
+           </div>
+          <br><br>
+          <div class="footer_c">
+            <div class="footer_container">
+                <!--Item one-->
+                <div class="footer_item">
+                    <p class="footer_category_title">Explore</p>
+                    <p><a class="footer_item_text" href="./about.html">About Us</a></p>
+                    <p><a class="footer_item_text" href="./resources.html">Resources</a></p>
+                    <p><a class="footer_item_text" href="./contributors.html">Contributors</a></p>
+                </div>
+                <!--Item two-->
+                <div class="footer_item">
+                    <p class="footer_category_title">Resources</p>
+                    <!--<p>Videos</p>-->
+                    <!--<p>Readings</p>-->
+                    <p><a class="footer_item_text" href="./resources.html">Questions</a></p>
+                    <!--<p>Tests/Quizzes</p>-->
+                </div> 
+                <!--Item three-->
+                <div class="footer_item">
+                    <p class="footer_category_title">Community</p>
+                    <!--<p>Discord</p>-->
+                    <p><a class="footer_item_text" href="./contact.html">Contribute</a></p>
+                    <p><a class="footer_item_text" href="./contact.html">Contact Us</a></p>
+                    <!--<p>Volunteer</p>-->
+                </div> 
+                <!--Item four-->
+                <div class="footer_item">
+                    <p class="footer_category_title">Follow Us</p>
+                    <span class="social_media_footer_icon"><a href="https://www.instagram.com/thecybermd/"><i class="fa fa-instagram" ></i></a></span>
+                    <!--<span class="social_media_footer_icon"><i class="fa fa-twitter"></i></span>-->
+                </div> 
+            </div>
+            <p class="footer_property_text">Cyber M.D 2023</p>
+            <p>Icons by <a target="_blank" href="https://icons8.com">Icons8</a></p>
+        </div>
+            <script>
+                var mySidebar = document.getElementById("mySidebar");
+
+                function w3_open() {
+                if (mySidebar.style.display === 'block') {
+                    mySidebar.style.display = 'none';
+                } else {
+                    mySidebar.style.display = 'block';
+                }
+                }
+
+                // Close the sidebar with the close button
+                function w3_close() {
+                    mySidebar.style.display = "none";
+                }
+
+                function generateVideoList(){
+                    const links = {"https://i.ytimg.com/vi/5oMWYxmQVGs/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDAHDmUrNj1RGdJoJjXddiC4FhCjg":["Gallstones", "https://www.youtube.com/watch?v=5oMWYxmQVGs"],
+                            "https://i.ytimg.com/vi/FZN9Jk0xn0M/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCbJXyUSvrThE33zG0ZljyCDuVReQ": ["Coronary Heart Disease","https://www.youtube.com/watch?v=FZN9Jk0xn0M&t=44s"],
+                            "https://i.ytimg.com/vi/TicENlTioFE/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLA4RhppOBFexgNFSl_PT5NKpMAAUg":["Chest Pain: A Guide to the Undifferentiated Patient","https://www.youtube.com/watch?v=TicENlTioFE"],
+                            "https://i.ytimg.com/vi/ozAYuY_VUTo/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCxsU2uu7q3ET1m4QWOIUCj5woKNw" : ["Tricuspid Valvulopathies","https://www.youtube.com/watch?v=ozAYuY_VUTo"],
+                            "https://i.ytimg.com/vi/3rgoaqDfYh4/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBt9ETJP6MqEo5L2ym9k7cdnn4FoA": ["Weakness: The Undifferentiated Patient","https://www.youtube.com/watch?v=3rgoaqDfYh4"],
+                            "https://i.ytimg.com/vi/GDYdqzJPgw4/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAbh-rFKPS_y9qY8eOJ5NO1SUS1MQ": ["Heart Failure","https://www.youtube.com/watch?v=GDYdqzJPgw4"],
+                            "https://i.ytimg.com/vi/ZQicevoMLxU/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCoN7Tq4ykccVove4jvD0Wh9BvNBw": ["Sudden Cardiac Death and Chronic Ischemic Heart Disease","https://www.youtube.com/watch?v=ZQicevoMLxU"],
+                            "https://i.ytimg.com/vi/w0V1Ek5OHUs/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBDNMYumCiFSbkwb8hMiOV5EkAwFA": ["Temporal Complications of Myocardial Infarction","https://www.youtube.com/watch?v=w0V1Ek5OHUs"],
+                            "https://i.ytimg.com/vi/W791DDy6bbE/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDJx8b6H1uHQqbVz63Bg6o-0pvb5Q": ["Myocardial Ischemia and Infarction","https://www.youtube.com/watch?v=W791DDy6bbE"],
+                            "https://i.ytimg.com/vi/o4sEeNESx5s/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDqsV-1wjS78knsIt5NnTY7JYzCOA": ["Pathologies of the Aorta","https://www.youtube.com/watch?v=o4sEeNESx5s"],
+                            "https://i.ytimg.com/vi/NQT_WQttNk8/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBZ9Z5ITVt2ZeG9S0AO8b9cdtxctg": ["Monckeberg Calcific Sclerosis","https://www.youtube.com/watch?v=NQT_WQttNk8&t=3s"],
+                            "https://i.ytimg.com/vi/Zbr9AacRqXo/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAIgLMJiBJMGHGkUv2Acg2Y_f2hxQ": ["Arteriolosclerosis","https://www.youtube.com/watch?v=Zbr9AacRqXo&t=3s"],
+                            "https://i.ytimg.com/vi/phi6PQdFtfE/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBfM2YwTtPeVegj6VCByULOLdw0oQ": ["Atherosclerosis","https://www.youtube.com/watch?v=phi6PQdFtfE&t=4s"],
+                            "https://i.ytimg.com/vi/4ad3uSgfEkQ/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAg1miwh79Xx9ZS2UPDJVjqnmQhQg": ["Hypertension","https://www.youtube.com/watch?v=4ad3uSgfEkQ&t=117s"],
+                            "https://i.ytimg.com/vi/ehi9JxkN1yQ/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAh2AIRwrwOTicpc8DqqemSWjZevw": ["Non-ANCA Small Vessel Vasculitides (HSP, IgA Vasculitis, Cryoglobulinemia, Cutaneous Vasculitis)","https://www.youtube.com/watch?v=ehi9JxkN1yQ"],
+                            "https://i.ytimg.com/vi/W5IV5vx7i0c/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAQbzxx_906X3gUHiq-QYHTGxla-w": ["ANCA Small Vessel Vasculitides {GPA (Wegener's), MPO, EGPA (Churg-Strauss)}","https://www.youtube.com/watch?v=W5IV5vx7i0c"],
+                            "https://i.ytimg.com/vi/OiATMo_4zRw/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLC44b5tuoi-nv7E85ghPOHWfAFL_g": ["Medium Vessel Vasculitides (Polyarteritis Nodosa, Kawasaki Disease, Buerger's Disease)","https://www.youtube.com/watch?v=OiATMo_4zRw"],
+                            "https://i.ytimg.com/vi/5NPm0aS72JA/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCBYk0kF6_CaSeWHsMZQAgcBaO8CQ": ["Large Vessel Vasculitides (Takayasu Arteritis and Temporal (Giant Cell) Arteritis)","https://www.youtube.com/watch?v=5NPm0aS72JA"],
+                            "https://i.ytimg.com/vi/Lh-J3oNXYo0/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDXql-Rsh2B1kvz_2qXdYMYQJ6iaA": ["Cardiovascular Autoregulation","https://www.youtube.com/watch?v=Lh-J3oNXYo0&t=2s"],
+                            "https://i.ytimg.com/vi/vM_xOwxRkB0/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAQn3XkDT3Hqu5BoaJq2ak6eU2jYA": ["Normal Resting Pressures","https://www.youtube.com/watch?v=vM_xOwxRkB0&t=7s"],
+                            "https://i.ytimg.com/vi/Wxt6SFgp5vo/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBPYaAywYghDeNmIrqABx8_T1QwMg": ["Capillary Fluid Exchange","https://www.youtube.com/watch?v=Wxt6SFgp5vo"],
+                            "https://i.ytimg.com/vi/z-82hWxwWZM/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBN169YsF9UnX5AEFE3XSZd781pag": ["Peptides and Receptors","https://www.youtube.com/watch?v=z-82hWxwWZM"],
+                            "https://i.ytimg.com/vi/CntMvu9-XzE/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLA1K1_d7JcX62fjSY23hTCKraE3Bw": ["Common EKG's: Brugada Syndrome","https://www.youtube.com/watch?v=CntMvu9-XzE&t=1s"],
+                            "https://i.ytimg.com/vi/QFCXbI7P9NU/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDI8HvcihVUpuuswNJ1j1zulpzx6w": ["Common EKG's: Bundle Branch Blocks","https://www.youtube.com/watch?v=QFCXbI7P9NU&t=19s"],
+                            "https://i.ytimg.com/vi/tGBQhrHF6Ug/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBLZFlVx-t_A_BKRp5QMevim-CD5g": ["Common EKG's: Congenital Long QT Syndrome","https://www.youtube.com/watch?v=tGBQhrHF6Ug"],
+                            "https://i.ytimg.com/vi/z47RIXHYBOo/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDqIoDJxJrBN0dDbP46Vs3QKGjbew":["Common EKG's: Premature Atrial Contractions (PAC's)","https://www.youtube.com/watch?v=z47RIXHYBOo"],
+                            "https://i.ytimg.com/vi/MEhTtAlCMIg/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDWlHG51u0hZjD91KvyPck_iyn5Qw": ["Common EKG's: Premature Ventricular Contractions (PVC's)","https://www.youtube.com/watch?v=MEhTtAlCMIg"],
+                            "https://i.ytimg.com/vi/NWY9XF6_39k/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLB1U4uRjNEYJThOVRUqEIc2BpuQOg": ["Common EKG's: Sick Sinus Syndrome","https://www.youtube.com/watch?v=NWY9XF6_39k"],
+                            "https://i.ytimg.com/vi/AKVcSP7MLPY/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLD9YtY1aHwqHB6O318CmRF35fc_4A": ["Common EKG's: Ventricular Tachycardia (VTach)","https://www.youtube.com/watch?v=AKVcSP7MLPY"],
+                            "https://i.ytimg.com/vi/kl71DSg6FYc/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAosVU018etrvEBxM4KPNxgKAyxcA": ["Common EKG's: Torsades de pointes","https://www.youtube.com/watch?v=kl71DSg6FYc"],
+                            "https://i.ytimg.com/vi/hGSSW7z6J4o/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBBuGFD1WrozQu2x9j5JhJN03E3oA": ["Common EKG's: Wolff Parkinson White","https://www.youtube.com/watch?v=hGSSW7z6J4o"],
+                            "https://i.ytimg.com/vi/nGhTh_lLLXQ/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBt5SdSwICMtH77nf3mEWKzFCDA9A": ["Common EKG's: Paroxysmal Supraventricular Tachycardia (SVT)","https://www.youtube.com/watch?v=nGhTh_lLLXQ"],
+                            "https://i.ytimg.com/vi/L5abP76HrU8/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDj9U1MAMm-37Bx8hdhF1mwwZT8eg": ["Common EKG's: Atrial Flutter","https://www.youtube.com/watch?v=L5abP76HrU8"],
+                            "https://i.ytimg.com/vi/wzQdSXFuZNc/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCoIJfx5FTQB41ExEF8ArQgY4mEIQ": ["Common EKG's: Multifocal Atrial Tachycardia","https://www.youtube.com/watch?v=wzQdSXFuZNc"],
+                            "https://i.ytimg.com/vi/ZS0Qd4WZ-Ek/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDOjJaIDTdnoOFpf9NU9_jHFoHulA": ["Common EKG's: Atrial Fibrillation","https://www.youtube.com/watch?v=ZS0Qd4WZ-Ek"],
+                            "https://i.ytimg.com/vi/FzLLP8zvWgM/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBvriFi38LFHwTqzSZYct3-zbGfLg": ["Common EKG's: STEMI and ST Depressions","https://www.youtube.com/watch?v=FzLLP8zvWgM"],
+                            "https://i.ytimg.com/vi/7OKafBr-OZE/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLC29vMqY_pIfgX4JlYPKP14FxQuqA": ["Common EKG's: Heart Blocks","https://www.youtube.com/watch?v=7OKafBr-OZE"],
+                            "https://i.ytimg.com/vi/6dVcS-47w_8/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLB3V3ZH-GXaDK2B686JWjF-u58ZBg": ["Common EKG's: Normal Sinus Rhythm","https://www.youtube.com/watch?v=6dVcS-47w_8"],
+                            "https://i.ytimg.com/vi/kj_7TFmHbpg/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDQEeCXC6VHOY52kJO9oZS6nzTSyg": ["EKG Basics 3:  Rate, Rhythm, Axis","https://www.youtube.com/watch?v=kj_7TFmHbpg"],
+                            "https://i.ytimg.com/vi/TyZi2TYe-wM/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLB8ciP0SJiIG6K2WxNwxjuLNsQ2UA": ["EKG Basics 2:  Lead Views","https://www.youtube.com/watch?v=TyZi2TYe-wM&t=447s"],
+                            "https://i.ytimg.com/vi/3weD768CiN4/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLB-p9IQHSOpQ9MshCAI_4CBgm0WkQ": ["EKG Basics","https://www.youtube.com/watch?v=3weD768CiN4"],
+                            "https://i.ytimg.com/vi/yQNRvGj0HXw/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDn2eL2idTV686lMfRtXrLu6h8-xA": ["The Pacemaker Action Potential","https://www.youtube.com/watch?v=yQNRvGj0HXw"],
+                            "https://i.ytimg.com/vi/SX1KarcqAZM/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCrjOa9lT2y3DmwUFZM9jV23wgjUg": ["The Myocardial Action Potential","https://www.youtube.com/watch?v=SX1KarcqAZM"],
+                            "https://i.ytimg.com/vi/0L-b0aT5xAo/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAYi6IhX_TAcAR_20zYVCbzk_6j7g": ["Murmurs and Maneuvers","https://www.youtube.com/watch?v=0L-b0aT5xAo"],
+                            "https://i.ytimg.com/vi/XE7gwUYHz_k/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBpYN4aYu_Du9LVmkFzwZcCQIQAVg": ["Basic Heart Auscultation","https://www.youtube.com/watch?v=XE7gwUYHz_k"],
+                            "https://i.ytimg.com/vi/xinXUqCPCVI/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAO2oFBeIM0qDA7QLcoN6vctvKJ2w": ["Diastolic and Continuous Murmurs","https://www.youtube.com/watch?v=xinXUqCPCVI"],
+                            "https://i.ytimg.com/vi/EKgxe7JAl2E/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLANoZduKi9o_N57kszuNSGilOCCdg": ["Systolic Murmurs","https://www.youtube.com/watch?v=EKgxe7JAl2E"],
+                            "https://i.ytimg.com/vi/zxr_-Gya4DY/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCY0o9Z7vuku3CSA6K0-iR1tSA31g": ["The S2 Split","https://www.youtube.com/watch?v=zxr_-Gya4DY"],
+                            "https://i.ytimg.com/vi/TMwcChBqTUs/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAozhruTCJ__cUrGyQmYIbeVwsfVA": ["Basic Heart Sounds","https://www.youtube.com/watch?v=TMwcChBqTUs"],
+                            "https://i.ytimg.com/vi/FUQf40DZAlM/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAa_46fYZ_RiCjdlwI0blmyycYkuQ": ["Wiggers Diagram","https://www.youtube.com/watch?v=FUQf40DZAlM"],
+                            "https://i.ytimg.com/vi/t_Mj5eisuLw/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLD6dhnVxITXS-Mznq-_9NhJqOffFQ": ["Pathology and Pressure Volume Loops","https://www.youtube.com/watch?v=t_Mj5eisuLw"],
+                            "https://i.ytimg.com/vi/TbPVmuecb_A/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBUFc2Ah2Hlqq4ytXATabD4OvZmBQ": ["Pressure Volume Loops and the Cardiac Cycle","https://www.youtube.com/watch?v=TbPVmuecb_A"],
+                            "https://i.ytimg.com/vi/HpGaWwclWCQ/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBVs5lX_UBasKQypXCgfmxwW3cAYA": ["Cardiac and Vascular Function Curves","https://www.youtube.com/watch?v=HpGaWwclWCQ"],
+                            "https://i.ytimg.com/vi/leXtK3v9tX0/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAGqEWTHleEHem3BE4gSXkd_njIzQ": ["Physics of Blood Flow","https://www.youtube.com/watch?v=leXtK3v9tX0"],
+                            "https://i.ytimg.com/vi/Y8CBHQt_Mg4/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLB-DjGXtfe9NQFYJQceVZfZs6KBCA": ["The Starling Curve","https://www.youtube.com/watch?v=Y8CBHQt_Mg4"],
+                            "https://i.ytimg.com/vi/yrJq1qvoGuA/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDz12YjadA5dZE3WF1UTyTkI3S-RQ": ["Cardiac Output","https://www.youtube.com/watch?v=yrJq1qvoGuA"],
+                            "https://i.ytimg.com/vi/tYNJakKoCwU/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDMWziZZxq5z1bLibL9DXPj9ANNqA": ["Cardiac Anatomy", "https://www.youtube.com/watch?v=tYNJakKoCwU"]
+                            }
+
+                    listHtml = `<div class="grid-container">`;
+                    for(const [imgLink, info] of Object.entries(links)) 
+                    {
+                        listHtml += `<div class="grid-item" onclick="openPage('`+info[1]+`')">
+                                        <img src="`+imgLink+`" alt="`+info[0]+`">
+                                        <p>`+info[0]+`</p>
+                                    </div>`;
+                    }
+                    listHtml+=`</div>`;
+                    document.getElementById("video-grid").innerHTML=listHtml;
+                }
+                
+                function openPage(pageUrl)
+                {
+                    window.open(pageUrl);
+                }
+            </script>
+    </body>
+</html>

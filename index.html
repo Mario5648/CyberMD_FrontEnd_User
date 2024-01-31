@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-CM0J5VHVFG"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-CM0J5VHVFG');
+        </script>
+        <link rel="icon" href="images/brain_icon.png">
+
+        <title>The Cyber M.D.</title>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300&display=swap" rel="stylesheet">        
+        <link rel="stylesheet" href="styles/mainpage_styles.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    </head>
+
+    <body>
+        <div class="hide_desktops">
+            <!-- Navbar on small screens (remove the onclick attribute if you want the navbar to always show on top of the content when clicking on the links) -->
+            <div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none; margin-top:0px; width:500px; background-color: #EDF2F4;" id="mySidebar">
+                <div class="side-bar">
+                    <a href="javascript:void(0)" onclick="w3_close()" class="navigation_bar_item">Close X</a>
+                    <a href="./login.html" onclick="w3_close()" class="navigation_bar_item">Login</a>
+                    <a href="./about.html" onclick="w3_close()" class="navigation_bar_item">About Us</a>
+                    <a href="./contact.html" onclick="w3_close()" class="navigation_bar_item">Contact Us</a>
+                    <a href="./contributors.html" onclick="w3_close()" class="navigation_bar_item">Contributors</a>
+                    <a href="https://forms.gle/9r9pPR4xELyxDdUG8" onclick="w3_close()" class="navigation_bar_item">Submit a Question</a>
+                    <a href="https://forms.gle/HiNRJsNdJRS5engw6" onclick="w3_close()" class="navigation_bar_item">Feedback</a>
+                </div>
+            </div>
+        </div>
+        <nav class="navigation_bar">
+            <div class="navigation_bar_container">
+                <img class="navigation_bar_image" src="./images/logo.png">
+                <span class="navigation_bar_items">
+                    <span class="show_on_desktops">
+                        <div id="myLinks">
+                            <a href="./login.html" class="navigation_bar_item">Login</a>
+                            <a href="./about.html" class="navigation_bar_item">About Us</a>
+                            <div class="dropdown">
+                                <a href="./contact.html" class="navigation_bar_item dropbtn">Contact Us <i class="fa fa-caret-down"></i></a>
+                                <div class="dropdown-content">
+                                    <a href="https://forms.gle/9r9pPR4xELyxDdUG8">Submit a Question</a>
+                                    <a href="https://forms.gle/HiNRJsNdJRS5engw6">Feedback</a>
+                                </div>
+                            </div>
+                            <div class="dropdown">
+                                <a href="./resources.html" class="hide_mobile navigation_bar_item">Resources <i class="fa fa-caret-down"></i></a>
+                                <div class="dropdown-content">
+                                    <a href="./videos.html">Videos</a>
+                                </div>
+                            </div>
+                        </div>
+                    </span>
+
+                    <span class="show_on_tablets hamburger_menu"><a href="javascript:void(0)" onclick="w3_open()"><i class="fa fa-bars"></i></a></span>
+                </span>  
+            </div>
+        </nav>
+        
+
+        <!--Hero section-->
+        <div class="hero_banner">
+            <div class="hero_container ">
+                <!--Left section-->
+                <div class="hero_text">
+                    <p class="hero_main_text">Welcome to the Future of Medical Education!</p>
+                    <p>Free Medical Education. For Everyone</p>
+                    <button class="hero_button"><a href="./resources.html" style="text-decoration:none;">View our Resources</a></button>
+                </div>
+                <span class="hide_on_phones">
+                    <div>
+                        <image class="hero_image" src="./images/hero_doctors_image.png">
+                    </div>
+                </span>
+            </div>
+        </div>
+
+        <!--How it works section-->
+        <div class="first_section">
+            <p class="section_title">How It Works</p>
+            <!--three display-->
+            <div class="row_items_third">
+                <!--Item one-->
+                <div class="column_item">
+                    <span class="item_icon"><i class="fa fa-group"></i></span>
+                    <p class="column_item_title">Collaboration</p>
+                    <p class="column_item_text">Medical Students, residents, professors, and attending physicians across the world are encouraged to submit practice questions, podcast scripts, video scripts, edits to existing material, or other study materials to the Cyber MD database. Accepted materials will be published and author(s) will be listed on the materials as well as on the website contributors list.</p>
+                </div>
+                <!--Item two--> 
+                <div class="column_item">
+                    <span class="item_icon"><i class="fa fa-book"></i></span>
+                    <p class="column_item_title">Study</p>
+                    <p class="column_item_text">Take advantage of an open source medical education. Save time and money while still acing your boards.</p>
+                </div>    
+                <!--Item three-->
+                <div class="column_item">
+                    <span class="item_icon"><i class="fa fa-file-text"></i></span>
+                    <p class="column_item_title">Compiled Content</p>
+                    <p class="column_item_text">All of our published materials are submitted by the medical community at large. The materials are then vetted, validated, and edited by our team to ensure the most effective and efficient learning experience for students.</p>
+                </div>      
+            </div>
+        </div>
+
+        <!--Features section-->
+        <div class="second_section">
+            <p class="section_title">Features</p>
+            <div class="row_items_half">
+                <!--Left section-->
+                <div>
+                    <img class="feautre_image" src="./images/cyberMD_product_image.png">
+                </div>
+                <!--Right Section-->
+                <div class="column_items">
+                    <span>
+                        <p class="feature_title">Test/Quiz Simulation</p>
+                        <p class="feautre_text">• Use our practice questions to simulate an exam or take quizzes and expand your knowledge by reviewing our thorough and referenced explanations.</p> 
+                    </span>
+                    <span>
+                        <p class="feature_title">Learning Resources</p>
+                        <p class="feautre_text">• Practice Questions</p> 
+                        <p class="feautre_text">• Videos (Coming Soon)</p> 
+                        <p class="feautre_text">• Text (Coming Soon)</p> 
+                        <p class="feautre_text">• Flashcards (Coming Soon)</p> 
+                    </span>
+                    <span>
+                        <p class="feature_title">Community</p>
+                        <p class="feautre_text">• Join our community as a contributor by using our content, submitting new content, or editing existing content. An easy way to make a lasting impact and become published!</p> 
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="footer_c">
+            <div class="footer_container">
+                <!--Item one-->
+                <div class="footer_item">
+                    <p class="footer_category_title">Explore</p>
+                    <p><a class="footer_item_text" href="./about.html">About Us</a></p>
+                    <p><a class="footer_item_text" href="./resources.html">Resources</a></p>
+                    <p><a class="footer_item_text" href="./contributors.html">Contributors</a></p>
+                </div>
+                <!--Item two-->
+                <div class="footer_item">
+                    <p class="footer_category_title">Resources</p>
+                    <!--<p>Videos</p>-->
+                    <!--<p>Readings</p>-->
+                    <p><a class="footer_item_text" href="./resources.html">Questions</a></p>
+                    <!--<p>Tests/Quizzes</p>-->
+                </div> 
+                <!--Item three-->
+                <div class="footer_item">
+                    <p class="footer_category_title">Community</p>
+                    <!--<p>Discord</p>-->
+                    <p><a class="footer_item_text" href="./contact.html">Contribute</a></p>
+                    <p><a class="footer_item_text" href="./contact.html">Contact Us</a></p>
+                    <!--<p>Volunteer</p>-->
+                </div> 
+                <!--Item four-->
+                <div class="footer_item">
+                    <p class="footer_category_title">Follow Us</p>
+                    <span class="social_media_footer_icon"><a href="https://www.instagram.com/thecybermd/"><i class="fa fa-instagram" ></i></a></span>
+                    <!--<span class="social_media_footer_icon"><i class="fa fa-twitter"></i></span>-->
+                </div> 
+            </div>
+            <p class="footer_property_text">Cyber M.D 2023</p>
+            <p>Icons by <a target="_blank" href="https://icons8.com">Icons8</a></p>
+        </div>
+        <script>
+            var mySidebar = document.getElementById("mySidebar");
+
+            function w3_open() {
+            if (mySidebar.style.display === 'block') {
+                mySidebar.style.display = 'none';
+            } else {
+                mySidebar.style.display = 'block';
+            }
+            }
+
+            // Close the sidebar with the close button
+            function w3_close() {
+                mySidebar.style.display = "none";
+            }
+        </script>
+    </body>
+
+</html>

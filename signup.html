@@ -1,0 +1,152 @@
+<html>
+    <link rel="icon" href="images/brain_icon.png">
+
+    <header>
+        <title>Signup</title>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300&display=swap" rel="stylesheet">        
+        <link rel="stylesheet" href="styles/login.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <script type = "text/javascript" src='./environment.js'></script>
+
+    </header>
+
+    <body class="login-body" onload="displayCaptcha()">
+        <div class="login-modal">
+            <div class="login-modal-items">
+                <img class="logo"src="images/brain_icon.png">
+                <p class="login-title">Welcome!</p>
+                <p class="login-subtext">Welcome to The Cyber M.D!</p>
+                <div class="user-input-section">
+                    <label class="input-label" for="user_username">Username</label><br>
+                    <input class="input-box" type="text" id="user_username" name="user_username"><br><br>
+
+                    <label class="input-label" for="user_email">Email</label><br>
+                    <input class="input-box" type="email" id="user_email" name="user_email"><br><br>
+
+                    <label class="input-label" for="user_password">Password</label><br>
+                    <input class="input-box" type="password" id="user_password" name="user_password">
+                </div>
+                <br>
+                <div id="captcha_image"></div>
+                <div id="captcha_user">
+                    <label for="captchaCodeInput">Enter Captcha Code (All Capitals)</label><br>
+                    <input class="input-box" type="text" id="captchaCodeInput" name="captchaCodeInput">
+                    <div id="captcha_refresh_container" class="captcha_refresh_container">
+                        <div>
+                            <p>Generate New Captcha</p>
+                        </div>
+                        <div>
+                            <button class="captcha_image_refresh" onclick="displayCaptcha()"></button>
+                        </div>
+                        
+                    </div>
+                </div>
+                <button class="login-button" onclick="signupUser()">Log in</button>
+                <p>Already have an account? <a class="signup-text" href="./login.html">Log in</a></p>
+            </div>
+        </div>
+
+        <script>
+            var ca = null;
+
+            //Check if a token is available in user's machine and login automatically
+            function hash_password(user_password)
+            {
+                const utf8 = new TextEncoder().encode(user_password);
+                return crypto.subtle.digest('SHA-256', utf8).then((hashBuffer) => {
+                    const hashArray = Array.from(new Uint8Array(hashBuffer));
+                    const hashHex = hashArray
+                    .map((bytes) => bytes.toString(16).padStart(2, '0'))
+                    .join('');
+                    return hashHex;
+                });
+                
+            }
+
+            function signupUser()
+            {
+                let captcha_verify = verifyCaptcha();
+                if(captcha_verify == false)
+                {
+                    return;
+                }
+
+                const Http = new XMLHttpRequest();
+                const url= returnEnvironmentURL()+'/user_signup';
+    
+                let username = document.getElementById("user_username").value;
+                let user_password = document.getElementById("user_password").value;
+                let user_email = document.getElementById("user_email").value;
+                let hashed_password = '';
+                let i = hash_password(user_password).then((hex) => hashed_password = hex);
+                setTimeout(function(){
+                    //hashed_password = hash_password(user_password);
+                    var params = JSON.stringify({"username": username, "password": hashed_password, "email":user_email});
+                    Http.open( "POST", url );
+                    Http.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+                    Http.send(params);
+        
+                    Http.onreadystatechange = ( e ) => {
+        
+                        if (Http.readyState == 4 && Http.status == 200 && Http.responseText) 
+                        {
+        
+                            response = JSON.parse( Http.responseText );
+        
+                            if (response["status"] == "success")
+                            {
+                                localStorage.setItem("cybermd_jwt", response["jwt"]);
+                                localStorage.setItem("cybermd_username", username);
+                                window.open("./userHome.html", "_self");
+        
+                            }else
+                            {
+                                alert("Username or Email Already in use!");
+                            }
+                        }
+                    }
+                }, 100);
+
+            }
+
+
+            function displayCaptcha()
+            {
+                const Http = new XMLHttpRequest();
+                const url=  returnEnvironmentURL()+'/generate_captcha';
+
+
+                Http.open( "GET", url );
+                Http.send( null );
+                Http.onreadystatechange = ( e ) => {
+
+                    if (Http.readyState == 4 && Http.status == 200 && Http.responseText) 
+                    {
+
+                        response = JSON.parse( Http.responseText );
+
+                        if (response["status"] == "success")
+                        {
+                            let captcha_image = response["captchaImage"];
+                            document.getElementById("captcha_image").innerHTML = `<img style="height:100px;" src="data:image/png;base64, `+captcha_image+`">`;
+                            ca = response["cc"];
+                        }
+                    }
+                }
+            }
+
+            function verifyCaptcha()
+            {
+                if(ca === document.getElementById("captchaCodeInput").value)
+                {
+                    return true;
+                }
+                alert("Incorrect Captcha! Please Try Again.");
+                return false;
+            }
+    
+        </script>
+    </body>
+</html>

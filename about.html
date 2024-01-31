@@ -1,0 +1,186 @@
+<html>
+    <head>
+        <link rel="icon" href="images/brain_icon.png">
+        <title>About Us</title>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300&display=swap" rel="stylesheet">        
+        <link rel="stylesheet" href="styles/about_styles.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <script type = "text/javascript" src='./environment.js'></script>
+    </head>
+    <body>
+
+        <div class="hide_desktops">
+            <!-- Navbar on small screens (remove the onclick attribute if you want the navbar to always show on top of the content when clicking on the links) -->
+            <div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none; margin-top:0px; width:500px; background-color: #EDF2F4;" id="mySidebar">
+                <div class="side-bar">
+                    <a href="javascript:void(0)" onclick="w3_close()" class="sidebar_item">Close X</a>
+                    <a href="./resources.html" onclick="w3_close()" class="sidebar_item">Resources</a>
+                    <a href="./about.html" onclick="w3_close()" class="sidebar_item">About Us</a>
+                    <a href="./contact.html" onclick="w3_close()" class="sidebar_item">Contact Us</a>
+                    <a href="./contributors.html" onclick="w3_close()" class="sidebar_item">Contributors</a>
+                    <a href="./videos.html" onclick="w3_close()" class="sidebar_item">Videos</a>
+                    <a href="./blog.html" onclick="w3_close()" class="sidebar_item">Blog</a>
+                    <a href="https://forms.gle/9r9pPR4xELyxDdUG8" onclick="w3_close()" class="sidebar_item">Submit a Question</a>
+                    <a href="https://forms.gle/HiNRJsNdJRS5engw6" onclick="w3_close()" class="sidebar_item">Feedback</a>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="navigation_bar">
+            <div class="navbar_container">
+                <div class="navigation_bar_items">
+                <a href="./index.html" class="navigation_bar_item">Home</a>
+                    <span class="show_on_desktops">
+                        <a href="./about.html" class="hide_mobile navigation_bar_item">About Us</a>
+                        <a href="./contributors.html" class="hide_mobile navigation_bar_item">Contributors</a>
+                        <div class="dropdown">
+                            <a href="./contact.html" class="navigation_bar_item dropbtn">Contact Us <i class="fa fa-caret-down"></i></a>
+                            <div class="dropdown-content">
+                                <a href="https://forms.gle/9r9pPR4xELyxDdUG8">Submit a Question</a>
+                                <a href="https://forms.gle/HiNRJsNdJRS5engw6">Feedback</a>
+                            </div>
+                        </div>
+                        <div class="dropdown">
+                            <a href="./resources.html" class="hide_mobile navigation_bar_item">Resources <i class="fa fa-caret-down"></i></a>
+                            <div class="dropdown-content">
+                                <a href="./videos.html">Videos</a>
+                                <a href="./blog.html">Blog</a>
+                            </div>
+                        </div>
+                    </span>
+                <a class="hide_desktops navigation_bar_item hamburger_menu" href="javascript:void(0)" onclick="w3_open()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+                </div>
+            </div>
+          </div>
+
+          <!--Mission section-->
+          <div class="section_container mission_container">
+            <p class="section_title_mission">Mission</p>
+            <p class="mission_statement">"Open-source medical education. No barriers to access other than a computer and internet. Imagine being able to do all of medical school from one free website. You’d be a Cyber M.D."</p>
+          </div>
+
+          <!--Story section-->
+          <div class="section_container story_container">
+            <p class="section_title">The Founding of Cyber M.D.</p>
+            <div class="content_conatiner">
+                <div>
+                    <p class="story_text">I was beginning to lightly study for USMLE STEP 1 at the start of my second year of medical school. The exam itself was over six months away, but I wanted to start my review a little earlier than most people, even if it was only a little bit of extra reading at the end of each day. Sooner than I would have liked, it became time to start consistently adding in practice questions. What did that mean? First and foremost, it meant dropping a ridiculous amount of money on a question bank that everyone deemed to be the gold standard for USMLE STEP 1 studying, and that my school greatly supported the use of. I remember getting back home from an exam and sitting at my desk in December of 2021. I pulled up the company website and begrudgingly began typing in my credit card information to buy the question bank. I became increasingly aggravated with every keystroke. The price I had to pay for the resource just seemed outrageous. Medical school in the United States is at least <span class="story_text_highlight">$20,000 per year, and I had to pay extra in order to get the resources needed to pass an exam? What had my first $40,000+ gone to?</span> Why weren’t the things I had done up to that point sufficient to reuse? More important than anything, though, was the question of why all of these resources were so expensive when the cost of medical school was already on the rise? It was no small amount of money, roughly $500 if I recall correctly. <span class="story_text_highlight">It was enough to cover most of my rent and utilities for the month.</span> It was enough to take myself on a really nice weekend getaway or buy my girlfriend something she thought was too expensive to buy for herself. <span class="story_text_highlight">It would have covered groceries for over a month.</span> I could have invested it into one of my hobbies or bought a new TV for our living room. The bottom line?</p>
+                    <p class="story_text_break">There had to be a better way.</p>
+                    <p class="story_text">I got mad about it. Medical students are almost ubiquitously entering medicine to help other people. To save lives. To make the world a better place. To leave it better than they found it. However, in recent history, many can only achieve these virtuous goals by taking on large sums of debt. <b>LARGE</b> sums. I had the knowledge needed to write practice questions along with the explanations for them. Why not just write them and put them out there? For free. <span class="story_text_highlight">Open-source medical education. No barriers to access other than a computer and internet. Imagine being able to do all of medical school from one free website. You’d be a Cyber M.D. …and thus an idea was born.</span> I decided to focus on writing practice questions first, as that is really what got me aggravated to begin with. I would try and do as many as I could in a day, altering the questions slightly to produce several questions from a single question stem. However, I burned out quickly after convincing myself that nobody else really cared too much in the end about having to pay the money for other resources, or else somebody would have done this already. My productivity dropped off somewhat rapidly, until there was no production at all.</p>
+                    <p class="story_text_break">Several months came and went.</p>
+                    <p class="story_text">It was just after taking USMLE STEP 1 that I was finally able to really relax for the first time in several months, if not more. I was watching “Lie to Me” on Netflix, but I could hardly focus because my phone was buzzing incessantly. I picked it up to see what was going on, and there were several unread text messages in a group message I had with some friends. The topic? You guessed it. How expensive these resources we had to buy were, and how much money these people were making off of a completely captive audience. <span class="story_text_highlight">An audience that had no choice but to buy their product, no matter the cost.</span> It reaffirmed for me that I was not alone in being aggravated with the system, and so I decided to share my idea with my friends. Their response was nothing shy of overwhelming support, and we discussed several aspects of what Cyber M.D. could look like. The conversation fizzled out, however, I knew that in the long run, something had to be done as I was not alone.</p>
+                    <p class="story_text">Carpooling on the way back from a classmates wedding a short time later, myself and one of my friends from the group message stopped at a brewery for lunch. We took a tour of the facility, grabbed some food from one of the food trucks on site, and ordered drinks. As we sat in the sun casually listening to some local musicians, I decided to ask him how serious he was about helping to start up Cyber M.D.</p>
+                    <p class="story_text_break">“Dead serious”, he said.</p>
+                    <p class="story_text">The several hours that we spent on the road afterwards were mostly spent talking about how we would organize and write our questions, and what the long-term plan would be. The goal was unchanged, and we began writing practice questions and explanations at a sustainable rate. Questions that are now available to you, for free.</p>
+                    <p class="story_text_break">- Written by Cade Johnson, Co-Founder</p>
+                </div>
+            </div>
+          </div>
+
+          <!--Founders section-->
+          <div class="section_container founders_container">
+            <p class="section_title">The Founders</p>
+            <div class="content_conatiner">
+                <div class="founder_container">
+                    <img class="founder_image" src="./images/cade.jpg">
+                    <p class="founder_name">Cade Johnson</p>
+                    <p class="founder_text">
+                        <span class="founder_text_category">Hometown:</span> Lumberton, TX<br>
+
+                        <span class="founder_text_category">Undergraduate School:</span> Lamar University (Beaumont, TX)<br>
+
+                        <span class="founder_subtext_category">-Degrees Earned: BS Biology (2019), BS Exercise Science (2019)</span><br>
+
+                        <span class="founder_text_category">Graduate School:</span>  Lamar University (Beaumont, TX)<br>
+
+                        <span class="founder_subtext_category">-Degrees Earned: Master’s Business Administration (2020)</span><br>
+
+                        <span class="founder_text_category">Graduate School:</span>  UTHealth Houston School of Public Health (Houston, TX)<br>
+
+                        <span class="founder_subtext_category">-Degrees Earned: Master’s Public Health (2024)</span><br>
+
+                        <span class="founder_text_category">Medical School:</span> UTHealth Science Center McGovern Medical School (2024)<br>
+
+                        <span class="founder_text_category">Hobbies/Interests:</span> Exercise, Leadership, Entrepreneurship/Business, Homebrewing
+                    </p>
+                </div>
+                <div class="founder_container">
+                    <img class="founder_image" src="./images/chris.jpg">
+                    <p class="founder_name">Chris Owen</p>
+                    <p class="founder_text">
+                        <span class="founder_text_category">Hometown:</span> Whichita Falls, TX<br>
+
+                        <span class="founder_text_category">Undergraduate School:</span> Texas Tech University (Lubbock, TX)<br>
+
+                        <span class="founder_subtext_category">-Degrees Earned: BS Biology (2020), BA Spanish (2020)</span><br>
+
+                        <span class="founder_text_category">Graduate School:</span>  University of Houston - Clear Lake (Houston, TX)<br>
+
+                        <span class="founder_subtext_category">-Degrees Earned: Master’s Business Administration (2024)</span><br>
+
+                        <span class="founder_text_category">Medical School:</span> UTHealth Science Center McGovern Medical School (2024)<br>
+
+                        <span class="founder_text_category">Hobbies/Interests:</span> Fishing, Business, Sports
+                    </p>
+                </div>
+            </div>
+
+          </div>
+
+
+          <div class="footer_c">
+            <div class="footer_container">
+                <!--Item one-->
+                <div class="footer_item">
+                    <p class="footer_category_title">Explore</p>
+                    <p><a class="footer_item_text" href="./about.html">About Us</a></p>
+                    <p><a class="footer_item_text" href="./resources.html">Resources</a></p>
+                    <p><a class="footer_item_text" href="./contributors.html">Contributors</a></p>
+                </div>
+                <!--Item two-->
+                <div class="footer_item">
+                    <p class="footer_category_title">Resources</p>
+                    <!--<p>Videos</p>-->
+                    <!--<p>Readings</p>-->
+                    <p><a class="footer_item_text" href="./resources.html">Questions</a></p>
+                    <!--<p>Tests/Quizzes</p>-->
+                </div> 
+                <!--Item three-->
+                <div class="footer_item">
+                    <p class="footer_category_title">Community</p>
+                    <!--<p>Discord</p>-->
+                    <p><a class="footer_item_text" href="./contact.html">Contribute</a></p>
+                    <p><a class="footer_item_text" href="./contact.html">Contact Us</a></p>
+                    <!--<p>Volunteer</p>-->
+                </div> 
+                <!--Item four-->
+                <div class="footer_item">
+                    <p class="footer_category_title">Follow Us</p>
+                    <span class="social_media_footer_icon"><a href="https://www.instagram.com/thecybermd/"><i class="fa fa-instagram" ></i></a></span>
+                    <!--<span class="social_media_footer_icon"><i class="fa fa-twitter"></i></span>-->
+                </div> 
+            </div>
+            <p class="footer_property_text">Cyber M.D 2023</p>
+            <p>Icons by <a target="_blank" href="https://icons8.com">Icons8</a></p>
+        </div>
+        <script>
+            var mySidebar = document.getElementById("mySidebar");
+
+            function w3_open() {
+            if (mySidebar.style.display === 'block') {
+                mySidebar.style.display = 'none';
+            } else {
+                mySidebar.style.display = 'block';
+            }
+            }
+
+            // Close the sidebar with the close button
+            function w3_close() {
+                mySidebar.style.display = "none";
+            }
+        </script>
+    </body>
+</html>

@@ -1,0 +1,724 @@
+<html>
+
+    <head>
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-CM0J5VHVFG"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-CM0J5VHVFG');
+        </script>
+        <title>Test</title>
+        <link rel="icon" href="./images/brain_icon.png">
+        <link rel="stylesheet" href="./styles/testStyles.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script type = "text/javascript" src='./environment.js'></script>
+        <script type = "text/javascript" src='./scripts/highlight.js'></script>
+
+    </head>
+
+    <body onload="checkUserLoggedIn();getQuestionInformation()" id="body">
+
+        <div class="main-page">
+            <!--Side Menu-->
+            <div class="sidebar-container">
+                <div id="sidebarContentContainer" class="sidebar-contents-container">
+
+                </div>
+
+                <button onclick="finishTest()" class="option-button-finish">Finish Test</button>
+            </div>
+
+            <!--Main content-->
+            <div class="main-content-container">
+                <div class="button-menu">
+                    <button onclick="displayQuestionPrevious()" class="option-button-previous"><i class="fa fa-angle-left"></i> Previous</button>
+                    <button onclick="displayQuestionNext()" class="option-button-next">Next <i class="fa fa-angle-right"></i></button>
+                </div>
+                <div class="info-header">
+                    <div class="question-id-text">
+                        <p id="questionId">QID #10000</p>
+                    </div>
+                    <div class="time-text">
+                        <p id="timer">Time Elapsed - <span id="hours"></span>:<span id="minutes"></span>:<span id="seconds"></span></p>
+                    </div>
+                </div>              
+                <!--Question and answers container-->
+                <div class="qa-container">
+                    <!--Question container-->
+                    <div class="question-container">
+                        <p class="question-text" id="question"></p>                
+                        <center><img id="questionImage" class="question-image"></img></center>
+                        <button class="option-button-mark" onclick="markQuestion()"><i class="fa fa-flag question-button-icon"></i> Mark</button>
+
+                    </div>
+                    <!--Answer Container-->
+                    <div class="answer-container">
+                        <form id="answer_choices">
+                        </form>
+                        <button id="submit_question_button" onclick="submitQuestionAnswer()" class="option-button-submit">Submit Answer</button>
+                    </div>
+
+                    <!--Analytics container-->
+                    <div id="questionAnalytics" class="question-analytics-container hide-explanation">
+                        <div class="question-analytics-flex">
+                            <p id="QA Total People"></p>
+                            <p id="Avg. User Percentile"></p>
+                        </div>
+                    </div>
+
+                    <!--Explanation container-->
+                    <div id="answerExplanations" class="explanation-container hide-explanation">
+                        <div>
+                            <p id="correct_answer_explanation"></p>
+                            <p id="incorrect_answer_explanation"></p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+            </div>
+        </div>
+
+
+
+        <script>
+
+            var questionInformation;
+            var questionNumber = 0;
+            var totalNumberQuestions;
+            var correctAnswers = 0;
+            var wrongAnswers = 0;
+            var hoursLabel = document.getElementById("hours");
+            var minutesLabel = document.getElementById("minutes");
+            var secondsLabel = document.getElementById("seconds");
+            var sec = 0;
+            var timeTaken = "";
+            setInterval(setTime, 1000);
+
+            function updateUserAnalytics(username, token, questions_answered, time_spent, correct_answers, wrong_answers)
+            {
+                const Http = new XMLHttpRequest();
+                const url= returnEnvironmentURL()+'/update_user_analytics';
+                var params = JSON.stringify({"username":username, "token":token, "questions_answered":questions_answered, "time_spent":time_spent, "correct_answers":correct_answers, "wrong_answers":wrong_answers})
+                Http.open( "POST", url );
+                Http.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+                Http.send(params);
+    
+                Http.onreadystatechange = ( e ) => {
+                    if (Http.readyState == 4 && Http.status == 200 && Http.responseText) 
+                    {
+                        response = JSON.parse( Http.responseText );
+                        if (response["eventFlag"] == true)
+                        {
+                            console.log("Updated User Analytics");
+                        }
+                    }
+                } 
+            }
+
+            function finishTest()
+            {
+                let username = localStorage.getItem("cybermd_username");
+                let token = localStorage.getItem("cybermd_jwt");
+
+                deleteLocalStorage();
+
+                let incompletedQuestions = totalNumberQuestions - (correctAnswers + wrongAnswers);
+                let completedQuestions = (correctAnswers + wrongAnswers)
+                console.log(`Correct: ${correctAnswers}, Wrong: ${wrongAnswers}, Incompleted: ${incompletedQuestions}, Score: ${correctAnswers / totalNumberQuestions}`)
+                clearInterval ( timer );
+                console.log(`Time taken - ${sec} Seconds`);
+
+                let score = Math.round((correctAnswers / totalNumberQuestions) * 100)/ 100;
+                score = score * 100;
+                loadFinishTestScreen( correctAnswers,wrongAnswers,incompletedQuestions, score, timeTaken );
+                updateUserAnalytics(username, token, completedQuestions, String(sec), correctAnswers, wrongAnswers);
+
+            }
+    
+            function setlocalStorage( questionInformation )
+            {
+                activeQuestionInformation = {"State":"Active", "SelectedAnswer":null, "Explanations":null, "Answer":null};
+                for(let index = 0; index < totalNumberQuestions; index += 1 )
+                {
+                    localStorage.setItem("question_"+questionInformation[index]["QuestionId"]+"_State", JSON.stringify(activeQuestionInformation));
+                }
+    
+            }
+    
+            function deleteLocalStorage()
+            {
+                for(let index = 0; index < totalNumberQuestions; index += 1 )
+                {
+                    localStorage.removeItem("question_"+questionInformation[index]["QuestionId"]+"_State");
+                }
+            }
+    
+            function updateQuestionStateSave( questionId )
+            {
+    
+                questionStateInformation = JSON.parse(localStorage.getItem("question_"+questionId+"_State"));
+                if(questionStateInformation["State"]  != "Completed")
+                {
+                    questionStateInformation["State"] = "Marked";
+                    questionStateInformation["SelectedAnswer"] = $('input[name="answer_choice"]:checked').attr('id');
+                    localStorage.setItem("question_"+questionId+"_State", JSON.stringify(questionStateInformation));
+                }
+            }
+    
+            function updateQuestionStateCompleted( questionId, explanations, answer, analytics )
+            {
+                questionStateInformation = JSON.parse(localStorage.getItem("question_"+questionId+"_State"));
+                questionStateInformation["State"] = "Completed";
+                questionStateInformation["SelectedAnswer"] = $('input[name="answer_choice"]:checked').attr('id');
+                questionStateInformation["Explanations"] = explanations;
+                questionStateInformation["Answer"] = answer;
+                questionStateInformation["Analytics"] = analytics;
+                localStorage.setItem("question_"+questionId+"_State", JSON.stringify(questionStateInformation));
+            }
+    
+            function readQuestionState( questionId )
+            {
+                questionStateInformation = JSON.parse(localStorage.getItem("question_"+questionId+"_State"));
+                questionState = questionStateInformation["State"];
+    
+                if( questionState == "Marked")
+                {
+                    document.getElementById("submit_question_button").disabled = false;
+                    try{
+                    document.getElementById( questionStateInformation["SelectedAnswer"] ).checked = true;
+                    }catch {}
+                    return
+                }else if( questionState == "Completed")
+                {
+                    document.getElementById("submit_question_button").disabled = true;
+                    try{
+                    document.getElementById( questionStateInformation["SelectedAnswer"] ).checked = true;
+                    }catch {}
+                    displayAnswerExplanations( questionStateInformation["Explanations"] );
+                    displayQuestionAnalytics( questionStateInformation["Analytics"] );
+                    displayAnswerPercent(questionId)
+                    markAnswer( questionStateInformation["Answer"] );
+                    diableQuestions();
+                    return
+                }
+                document.getElementById("submit_question_button").disabled = false;
+    
+    
+            }
+    
+            function getQuestionInformation()
+            {
+                let username = localStorage.getItem("cybermd_username")
+                let token = localStorage.getItem("cybermd_jwt")
+                let categoryName = localStorage.getItem("categoryName");
+                let numberOfQuestions = parseInt(localStorage.getItem("userQuestionAmount"));
+                let testType = localStorage.getItem("testType");
+
+                const Http = new XMLHttpRequest();
+                const url= returnEnvironmentURL()+`/get_questions`;
+                var params = JSON.stringify({"questionCategory":categoryName, "username": username, "token": token, "numberOfQuestions":numberOfQuestions, "testType":testType})
+                Http.open( "POST", url );
+                Http.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+                Http.send(params);
+
+    
+                Http.onreadystatechange = ( e ) => {
+                    if (Http.readyState == 4 && Http.status == 200 && Http.responseText) 
+                    {
+                        questionInformation = JSON.parse(Http.responseText)["questions"];
+                        totalNumberQuestions = Object.keys( questionInformation ).length;
+                        setupView();
+                        populateSidebar();
+                        setlocalStorage(questionInformation);
+                    }
+                }
+            }
+    
+            function checkAnswer( userAnswer, correctAnswer )
+            {
+                if( userAnswer == correctAnswer )
+                {
+                    return true;
+                }
+    
+                return false;
+            }
+    
+
+            function displayQuestionImage()
+            {
+                try
+                {
+                    if(questionInformation[ questionNumber ][ 'Image' ] != null)
+                    {
+                        document.getElementById( "questionImage" ).src = questionInformation[ questionNumber ][ 'Image' ];
+                    }
+                }catch
+                {
+
+                }
+
+            }
+            function formatAnswerExplanations( explanations )
+            {
+                formattedExplanation = ``;
+    
+                for(let [answer, explanation] of Object.entries(explanations))
+                {
+                    formattedExplanation += `<div><p><b>${answer}</b></p><p>${explanation.replace(/\n/g, "<br />")}</p></div><br>`;
+                }
+    
+                return formattedExplanation;
+            }
+    
+            function displayAnswerExplanations( answerExplanations )
+            {
+                correctExplanations = JSON.parse(answerExplanations["Correct"]);
+                incorrectExplanations = JSON.parse(answerExplanations["Incorrect"]);
+                document.getElementById("answerExplanations").style.display = 'block';
+                document.getElementById( "correct_answer_explanation" ).innerHTML  = "<h2>Correct Answer:</h2>"+formatAnswerExplanations(correctExplanations);
+                document.getElementById( "incorrect_answer_explanation" ).innerHTML  = "<h2>Incorrect Answer:</h2>"+formatAnswerExplanations(incorrectExplanations);
+            }
+    
+            function displayQuestionAnalytics(analytics)
+            {
+                if(!analytics["Available"])
+                {
+                    return;
+                }
+
+                document.getElementById("questionAnalytics").style.display = 'block';
+                document.getElementById("QA Total People").innerHTML = 'Total People<br><center>'+analytics["TotalPeople"]+"</center>";
+                document.getElementById("Avg. User Percentile").innerHTML = 'Avg. Percentile<br><center>'+analytics["AvgPercentile"]+"</center>";
+            }
+            function diableQuestions()
+            {
+                var form = document.getElementById("answer_choices");
+                var elements = form.elements;
+                for (var i = 0, len = elements.length; i < len; ++i) 
+                {
+                    elements[i].disabled = true;
+                }
+                document.getElementById("submit_question_button").disabled = true;
+    
+    
+            }
+
+            function updateQuestionAnalytics(questionId)
+            {
+                let username = localStorage.getItem("cybermd_username");
+                let token = localStorage.getItem("cybermd_jwt");
+                const Http = new XMLHttpRequest();
+                const url= returnEnvironmentURL()+'/update_question_analytics';
+                var params = JSON.stringify({"questionId":questionId, "username":username, "token": token})
+                Http.open( "POST", url );
+                Http.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+                Http.send(params);
+    
+                Http.onreadystatechange = ( e ) => {
+                    if (Http.readyState == 4 && Http.status == 200 && Http.responseText) 
+                    {
+                        response = JSON.parse( Http.responseText );
+                        if (response["eventFlag"] == true)
+                        {
+                            console.log("Updated Question Analytics");
+                        }
+                    }
+                }             
+            }
+
+
+            function addQuestionInfoToUser(questionId, correct, userAnswer)
+            {
+                let username = localStorage.getItem("cybermd_username");
+                let token = localStorage.getItem("cybermd_jwt");
+                let categoryName = localStorage.getItem("categoryName");
+                let testType = localStorage.getItem("testType");
+
+                const Http = new XMLHttpRequest();
+                const url= returnEnvironmentURL()+'/update_question_by_user_table';
+                var params = JSON.stringify({"questionId":questionId, "isCorrect":String(correct), "username":username, "token": token, "questionCategory":categoryName, "userAnswer":userAnswer, "testType":testType })
+                Http.open( "POST", url );
+                Http.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+                Http.send(params);
+    
+                Http.onreadystatechange = ( e ) => {
+                    if (Http.readyState == 4 && Http.status == 200 && Http.responseText) 
+                    {
+                        response = JSON.parse( Http.responseText );
+                        if (response["status"] == "success")
+                        {
+                            console.log("Added question analytics to user");
+                            updateQuestionAnalytics(questionId);
+
+                        }
+                    }
+                }             
+            }
+
+            function submitQuestionAnswer()
+            {
+
+                let username = localStorage.getItem("cybermd_username");
+                let token = localStorage.getItem("cybermd_jwt");
+                let time = "0.0";
+                let questionId = questionInformation[ questionNumber ][ 'QuestionId' ];
+                let userAnswer = document.querySelector( 'input[name="answer_choice"]:checked' ).value;
+
+                const Http = new XMLHttpRequest();
+                const url= returnEnvironmentURL()+'/submit_question_answer';
+                var params = JSON.stringify({'questionId':questionId,
+                                             'answer':document.querySelector('input[name="answer_choice"]:checked').value,
+                                             'username':username,
+                                             'token':token,
+                                             'userTimeTaken':time,
+                                            });
+                Http.open( "POST", url );
+                Http.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+                Http.send(params);
+ 
+
+                Http.onreadystatechange = ( e ) => {
+    
+                    if (Http.readyState == 4 && Http.status == 200 && Http.responseText) 
+                    {
+
+                        response = JSON.parse( Http.responseText );
+                        correctAnswer = response["answer"][ "Answer" ];
+                        displayAnswerExplanations(response["answer"][ "Explanations" ]);
+                        correct = checkAnswer( userAnswer, correctAnswer );
+                        addQuestionInfoToUser(questionId, correct, userAnswer);
+                        diableQuestions();
+                        markAnswer( correctAnswer );
+
+
+                        let question_analytics = {"questionId": questionId, "TotalPeople": response["analytics"]["TotalAnswers"], "AvgPercentile":response["analytics"]["AvgPercentile"], "AvgTime":response["analytics"]["AvgTime"], "AnswerAnalytics":JSON.parse(response["analytics"]["AnswerAnalytics"]), "Available":true};
+                        displayQuestionAnalytics(question_analytics);
+                        updateQuestionStateCompleted( questionId, response["answer"][ "Explanations" ],correctAnswer, question_analytics );
+                        displayAnswerPercent(questionId);
+                        if(correct)
+                        {
+                            correctAnswers += 1;
+                        }else
+                        {
+                            wrongAnswers += 1;
+                        }
+
+
+                    }
+                }
+            }
+            
+            function getUserPercentile(username, token)
+            {
+                const Http = new XMLHttpRequest();
+                const url= returnEnvironmentURL()+'/get_user_analytics';
+                var params = JSON.stringify({'username':username, 'token':token});
+                Http.open( "POST", url );
+                Http.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+                Http.send(params);
+    
+                Http.onreadystatechange = ( e ) => {
+    
+                    if (Http.readyState == 4 && Http.status == 200 && Http.responseText) 
+                    {
+                        response = JSON.parse( Http.responseText );
+
+                        if (response["eventFlag"] == true)
+                        {
+                            let userPercentile = response["Percentile"];
+                            localStorage.setItem("temp_userpercentile_cybermd", userPercentile)
+
+                        }
+                    }
+                }
+
+            }
+            function getQuestionAnalytics()
+            {
+                const Http = new XMLHttpRequest();
+                const url= returnEnvironmentURL()+'/get_question_analytics';
+                var params = JSON.stringify({'questionId':questionInformation[ questionNumber ][ 'QuestionId' ]});
+                Http.open( "POST", url );
+                Http.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+                Http.send(params);
+                Http.onreadystatechange = ( e ) => {
+    
+                    if (Http.readyState == 4 && Http.status == 200 && Http.responseText) 
+                    {
+                        response = JSON.parse( Http.responseText );
+
+                        if (response["eventFlag"] == true)
+                        {
+                            let analytics_results = {"questionId": response[questionId], "TotalPeople": response["TotalPeople"], "AvgPercentile":response["AvgPercentile"], "AvgTime":response["AvgTime"], "AnswerAnalytics":response["AnswerAnalytics"], "Available":true};
+                            localStorage.setItem("temp_analytics_cybermd",JSON.stringify(analytics_results));
+                        }
+                    }
+                }
+
+            }
+            function setupView()
+            {
+
+
+                document.getElementById( "question" ).innerHTML  = questionInformation[ 0 ][ 'Question' ];
+                displayQuestionImage();
+                populateAnswerChoices();
+                fillQuestionId();
+            }
+    
+            function displayQuestionNext()
+            {
+                updateQuestionStateSave(questionInformation[ questionNumber ][ 'QuestionId' ]);
+                document.getElementById("answerExplanations").style.display = 'none';
+                document.getElementById("questionAnalytics").style.display = 'none';
+
+                if ( questionNumber + 1 < totalNumberQuestions )
+                {
+                    questionNumber += 1;
+                }
+                document.getElementById( "question" ).innerHTML  = questionInformation[ questionNumber ][ 'Question' ];
+                displayQuestionImage();
+                document.getElementById( "correct_answer_explanation" ).innerHTML  = "";
+                document.getElementById( "incorrect_answer_explanation" ).innerHTML  = "";
+                populateAnswerChoices();
+                fillQuestionId();
+                readQuestionState( questionInformation[ questionNumber ][ 'QuestionId' ] );
+
+            }
+    
+            function displayQuestionPrevious()
+            {
+                updateQuestionStateSave(questionInformation[ questionNumber ][ 'QuestionId' ]);
+                document.getElementById("answerExplanations").style.display = 'none';
+                document.getElementById("questionAnalytics").style.display = 'none';
+
+                if ( questionNumber > 0 )
+                {
+                    questionNumber -= 1;
+                }
+    
+                document.getElementById( "question" ).innerHTML  = questionInformation[ questionNumber ][ 'Question' ];
+                displayQuestionImage();
+                document.getElementById( "correct_answer_explanation" ).innerHTML  = "";
+                document.getElementById( "incorrect_answer_explanation" ).innerHTML  = "";
+                populateAnswerChoices();
+                fillQuestionId();
+                readQuestionState( questionInformation[ questionNumber ][ 'QuestionId' ] );
+
+            }
+
+            function displayQuestion(questionNumberNew)
+            {
+                updateQuestionStateSave(questionInformation[ questionNumber ][ 'QuestionId' ]);
+                document.getElementById("answerExplanations").style.display = 'none';
+                document.getElementById("questionAnalytics").style.display = 'none';
+
+                questionNumber = questionNumberNew;
+
+                document.getElementById( "question" ).innerHTML  = questionInformation[ questionNumber ][ 'Question' ];
+                displayQuestionImage();
+                document.getElementById( "correct_answer_explanation" ).innerHTML  = "";
+                document.getElementById( "incorrect_answer_explanation" ).innerHTML  = "";
+                populateAnswerChoices();
+                fillQuestionId();
+                readQuestionState( questionInformation[ questionNumber ][ 'QuestionId' ] );
+            }
+    
+            function generateAnswerChoicesSelection()
+            {
+                answerChoices = JSON.parse( questionInformation[ questionNumber ][ "Answers" ] );
+                numberOfAnswerChoices = Object.keys( answerChoices ).length;
+                answerChoiceSelection = "";
+    
+                for( let index = 0; index < numberOfAnswerChoices; index += 1 )
+                {
+                    answerChoiceSelection +=`<div class="answer-choice" id="answer${index}_container"> <input type="radio" class="answer-radio-button" id="answer_`+index.toString()+`" name="answer_choice" value="`+answerChoices[ index ].toString()+`">
+                                        <label class="answer-choice-label" for="answer_`+index.toString()+`">`+answerChoices[ index ].toString()+`</label><br></div><hr>`;
+                }
+    
+                return answerChoiceSelection;
+                
+            }
+            
+            function markAnswer( rightAnswer )
+            {
+                answerChoices = JSON.parse( questionInformation[ questionNumber ][ "Answers" ] );
+                numberOfAnswerChoices = Object.keys( answerChoices ).length;
+
+                for( let index = 0; index < numberOfAnswerChoices; index += 1 )
+                {
+                    if(document.getElementById("answer_"+index.toString()).value == rightAnswer)
+                    {
+                        let markIcon = document.createElement("i");
+                        markIcon.className = "fa fa-check right_answer";
+                        document.getElementById(`answer${index}_container`).appendChild(markIcon)
+                    }else
+                    {
+                        let markIcon = document.createElement("i");
+                        markIcon.className = "fa fa-close wrong_answer";
+                        document.getElementById(`answer${index}_container`).appendChild(markIcon)
+                    }
+                }
+            }
+
+            function displayAnswerPercent(questionId)
+            {
+                let questionStateInformation = JSON.parse(localStorage.getItem("question_"+questionId+"_State"));
+                let answerAnalytics = questionStateInformation[ "Analytics" ]["AnswerAnalytics"];
+                let answerChoices = JSON.parse( questionInformation[ questionNumber ][ "Answers" ] );
+                let totalPeople = Object.values(answerAnalytics).reduce((a, b) => a + b);
+                let numberOfAnswerChoices = Object.keys( answerChoices ).length;
+
+                for( let index = 0; index < numberOfAnswerChoices; index += 1 )
+                {
+                    let key = (document.getElementById("answer_"+index.toString()).value).toString()
+                    if(key in answerAnalytics)
+                    {
+                        let percentElement = document.createElement("i");
+                        percentElement.innerText = Math.round((parseInt(answerAnalytics[key]) / totalPeople) * 100, 2).toString()+"%";
+                        document.getElementById(`answer${index}_container`).appendChild(percentElement);
+                    }
+                    else
+                    {
+                        let percentElement = document.createElement("i");
+                        percentElement.innerText = "0%";
+                        document.getElementById(`answer${index}_container`).appendChild(percentElement);
+                    }
+                }
+            }
+
+            function populateAnswerChoices()
+            {
+                document.getElementById( "answer_choices" ).innerHTML = generateAnswerChoicesSelection();
+            }
+
+            function fillQuestionId()
+            {
+                document.getElementById("questionId").innerText = `QID #${questionInformation[ questionNumber ][ "QuestionId" ]}`
+            }
+
+            function populateSidebar()
+            {
+                let categoryName = localStorage.getItem("categoryName");
+
+                //sidebar header info
+                sidebarContents = `<div class="info-container">
+                                        <img class="logo-img" src="./images/logo.png" />
+                                        <p class="category-text">Section: ${categoryName}</p>
+                                    </div>
+                                    <hr>`;
+
+                for(let index = 0; index < totalNumberQuestions; index += 1)
+                {
+                    if(index % 2 != 0)
+                    {
+                        sidebarContents += `<div class="question-tab-odd">
+                                            <a id="question_${index}_button" onclick="displayQuestion(`+index+`)"><p>${index+1}. Question ${index+1}</p></a>
+                                        </div>
+                                        <hr>`;
+                    }else
+                    {
+                        sidebarContents += `<div class="question-tab-even">
+                                            <a id="question_${index}_button" onclick="displayQuestion(`+index+`)"><p>${index+1}. Question ${index+1}</p></a>
+                                        </div>
+                                        <hr>`;      
+                    }
+
+                }
+
+                document.getElementById("sidebarContentContainer").innerHTML = sidebarContents;
+
+            }
+
+            function markQuestion()
+            {
+                updateQuestionStateSave(questionInformation[ questionNumber ][ 'QuestionId' ]);
+                document.getElementById(`question_${questionNumber}_button`).innerHTML = `<p>${questionNumber+1}. Question ${questionNumber+1} <i class="fa fa-flag" style="font-size:20px"></i></p>`;
+            }
+
+            function setTime()
+            {
+                ++sec;
+                secondsLabel.innerHTML = pad(sec%60);
+                minutesLabel.innerHTML = pad(parseInt((sec/60)) % 60);
+                hoursLabel.innerHTML = pad(parseInt((sec/3600)));
+
+            }
+
+            function pad(val)
+            {
+                var valString = val + "";
+                if(valString.length < 2)
+                {
+                    return "0" + valString;
+                }
+                else
+                {
+                    return valString;
+                }
+            }
+
+            function loadFinishTestScreen( correctAnswers,wrongAnswers,incompletedQuestions, score, time )
+            {
+                document.getElementById("body").innerHTML = `    <div class="finish-results-container">
+                                                                    <a href="https://thecybermd.com/userHome.html"><i class="fa fa-home" style="font-size:50px"></i></a>
+                                                                    <span class="finish-text">
+                                                                        <p>Successfully Finished Test!</p>
+                                                                        <p>Score: ${score}%</p>
+                                                                    </span>
+                                                                    <hr>
+                                                                    <span class="finish-result-information-text">
+                                                                        <p>Time Taken: ${time}</p>
+                                                                        <p>Correct: ${correctAnswers}</p>
+                                                                        <p>Incorrect: ${wrongAnswers}</p>
+                                                                        <p>Not Finished: ${incompletedQuestions}</p>
+                                                                    </span>
+                                                                </div>`;
+            }
+            function checkUserLoggedIn()
+            {
+                const Http = new XMLHttpRequest();
+                const url= returnEnvironmentURL()+'/check_user_loggedin';
+                let username = localStorage.getItem("cybermd_username");
+                let token = localStorage.getItem("cybermd_jwt");
+
+                if(username == null || token == null)
+                {
+                    window.open('./login.html','_self');
+                }
+                var params = JSON.stringify({"username": username, "token": token});
+                Http.open( "POST", url );
+                Http.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+                Http.send(params);
+    
+                Http.onreadystatechange = ( e ) => {
+    
+                    if (Http.readyState == 4 && Http.status == 200 && Http.responseText) 
+                    {
+                        response = JSON.parse( Http.responseText );
+
+                        if (response["status"] != "success")
+                        {
+                            window.open('./login.html','_self');
+                        }
+                    }
+                }
+            }
+
+
+
+            document.getElementById('question').addEventListener('mouseup', highlightSelection);
+
+
+        </script>
+    </body>
+
+</html>

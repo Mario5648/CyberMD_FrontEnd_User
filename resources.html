@@ -1,0 +1,219 @@
+<html>
+    <link rel="icon" href="images/brain_icon.png">
+
+    <header>
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-CM0J5VHVFG"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-CM0J5VHVFG');
+        </script>
+        <title>Resources</title>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300&display=swap" rel="stylesheet">        
+        <link rel="stylesheet" href="styles/resources_styles.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <script type = "text/javascript" src='./environment.js'></script>
+    </header>
+    <body onload="checkUserLoggedIn()">
+
+        <!-- Navbar on small screens (remove the onclick attribute if you want the navbar to always show on top of the content when clicking on the links) -->
+        <div class="hide_desktops">
+            <!-- Navbar on small screens (remove the onclick attribute if you want the navbar to always show on top of the content when clicking on the links) -->
+            <div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none; margin-top:0px; width:500px; background-color: #EDF2F4;" id="mySidebar">
+                <div class="side-bar">
+                    <a href="javascript:void(0)" onclick="w3_close()" class="sidebar_item">Close X</a>
+                    <a href="./resources.html" onclick="w3_close()" class="sidebar_item">Resources</a>
+                    <a href="./account.html" onclick="w3_close()" class="sidebar_item">Account</a>
+                    <a href="./login.html" onclick="w3_close();logout()" class="sidebar_item">Logout</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="navigation_bar">
+            <div class="navbar_container">
+                <div class="navigation_bar_items">
+                    <a href="./userHome.html" class="navigation_bar_item">Home</a>
+                    <span class="show_on_desktops">
+                        <a href="./resources.html" class="hide_mobile navigation_bar_item">Resources</a>
+                        <a href="./account.html" class="hide_mobile navigation_bar_item">Account</a>
+                        <a href="./login.html" class="hide_mobile navigation_bar_item" onclick="logout()">Logout</a>
+                    </span>
+                    <a class="hide_desktops navigation_bar_item hamburger_menu" href="javascript:void(0)" onclick="w3_open()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+                </div>
+            </div>
+        </div>
+
+          <!--Resources section-->
+          <div class="section_container">
+            <div class="resource_section">
+                <p class="section_title">Resources</p>
+                <div class="options_section">
+                    <p class="subtitle">Categories</p>
+                    <a class="option_tab_link" onclick="openResourcesOptionPage(10000, 'Behavioral Health')">
+                        <div class="option_tab option_icon_size">
+                            <span class="option_icon"><img src="./images/icons/icons8-brain-96.png"/></span>
+                            <p class="option_text">Behavioral Health</p>
+                            <span class="option_icon"><i class="fa fa-angle-right"></i></span>
+                        </div> 
+                    </a>
+                    <a class="option_tab_link disabled" onclick="openResourcesOptionPage(20000, 'Biostats/Epidemiology')">
+                        <div class="option_tab option_icon_size">
+                            <span class="option_icon"><img src="./images/icons/icons8-virus-96.png"/></span>
+                            <p class="option_text">Biostats/Epidemiology</p>
+                            <span class="option_icon"><i class="fa fa-angle-right"></i></span>
+                        </div> 
+                    </a>
+                    <a class="option_tab_link disabled" onclick="openResourcesOptionPage(30000, 'Cardiovascular')">
+                        <div class="option_tab option_icon_size">
+                            <span class="option_icon"><img src="./images/icons/icons8-heart-96.png"/></span>
+                            <p class="option_text">Cardiovascular</p>
+                            <span class="option_icon"><i class="fa fa-angle-right"></i></span>
+                        </div> 
+                    </a>
+                    <a class="option_tab_link" onclick="openResourcesOptionPage(40000, 'Endocrine')">
+                        <div class="option_tab option_icon_size">
+                            <span class="option_icon"><img src="./images/icons/icons8-pancreas-96.png"/></span>
+                            <p class="option_text">Endocrine</p>
+                            <span class="option_icon"><i class="fa fa-angle-right"></i></span>
+                        </div> 
+                    </a>
+                    <a class="option_tab_link" onclick="openResourcesOptionPage(50000, 'Gastrointestinal')">
+                        <div class="option_tab option_icon_size">
+                            <span class="option_icon"><img src="./images/icons/icons8-intestine-96.png"/></span>
+                            <p class="option_text">Gastrointestinal</p>
+                            <span class="option_icon"><i class="fa fa-angle-right"></i></span>
+                        </div> 
+                    </a>
+                    <a class="option_tab_link" onclick="openResourcesOptionPage(60000, 'General Principles')">
+                        <div class="option_tab option_icon_size">
+                            <span class="option_icon"><img src="./images/icons/icons8-doctors-bag-96.png"/></span>
+                            <p class="option_text">General Principles</p>
+                            <span class="option_icon"><i class="fa fa-angle-right"></i></span>
+                        </div> 
+                    </a>
+                    <a class="option_tab_link disabled" onclick="openResourcesOptionPage(70000, 'Hematology/Oncology')">
+                        <div class="option_tab option_icon_size">
+                            <span class="option_icon"><img src="./images/icons/icons8-red-blood-cells-96.png"/></span>
+                            <p class="option_text">Hematology/Oncology</p>
+                            <span class="option_icon"><i class="fa fa-angle-right"></i></span>
+                        </div> 
+                    </a>
+                    <a class="option_tab_link" onclick="openResourcesOptionPage(80000, 'Immunology')">
+                        <div class="option_tab option_icon_size">
+                            <span class="option_icon"><img src="./images/icons/icons8-immune-system-96.png"/></span>
+                            <p class="option_text">Immunology</p>
+                            <span class="option_icon"><i class="fa fa-angle-right"></i></span>
+                        </div> 
+                    </a>
+                    <a class="option_tab_link" onclick="openResourcesOptionPage(90000, 'Musculoskeletal/Dermatology')">
+                        <div class="option_tab option_icon_size">
+                            <span class="option_icon"><img src="./images/icons/icons8-skin-96.png"/></span>
+                            <p class="option_text">Musculoskeletal/Dermatology</p>
+                            <span class="option_icon"><i class="fa fa-angle-right"></i></span>
+                        </div> 
+                    </a>
+                    <a class="option_tab_link disabled" onclick="openResourcesOptionPage(100000, 'Multisystem Processes and Disorders')">
+                        <div class="option_tab option_icon_size">
+                            <span class="option_icon"><img src="./images/icons/icons8-anatomy-96.png"/></span>
+                            <p class="option_text">Multisystem Processes and Disorders</p>
+                            <span class="option_icon"><i class="fa fa-angle-right"></i></span>
+                        </div> 
+                    </a>
+                    <a class="option_tab_link" onclick="openResourcesOptionPage(110000, 'Nervous System/Special Senses')">
+                        <div class="option_tab option_icon_size">
+                            <span class="option_icon"><img src="./images/icons/icons8-nervous-system-96.png"/></span>
+                            <p class="option_text">Nervous System/Special Senses</p>
+                            <span class="option_icon"><i class="fa fa-angle-right"></i></span> 
+                        </div> 
+                    </a>
+                    <a class="option_tab_link" onclick="openResourcesOptionPage(120000, 'Renal')">
+                        <div class="option_tab option_icon_size">
+                            <span class="option_icon"><img src="./images/icons/icons8-kidney-96.png"/></span>
+                            <p class="option_text">Renal</p>
+                            <span class="option_icon"><i class="fa fa-angle-right"></i></span>
+                        </div> 
+                    </a>
+                    <a class="option_tab_link" onclick="openResourcesOptionPage(130000, 'Reproductive')">
+                        <div class="option_tab option_icon_size">
+                            <span class="option_icon"><img src="./images/icons/icons8-reproductive-system-96.png"/></span>
+                            <p class="option_text">Reproductive</p>
+                            <span class="option_icon"><i class="fa fa-angle-right"></i></span>
+                        </div> 
+                    </a>
+                    <a class="option_tab_link disabled" onclick="openResourcesOptionPage(140000, 'Respiratory')">
+                        <div class="option_tab option_icon_size">
+                            <span class="option_icon"><img src="./images/icons/icons8-lungs-96.png"/></span>
+                            <p class="option_text">Respiratory</p>
+                            <span class="option_icon"><i class="fa fa-angle-right"></i></span>
+                        </div> 
+                    </a>
+                </div>
+            </div>
+          </div>
+          <br><br>
+
+
+            <script>
+                var mySidebar = document.getElementById("mySidebar");
+
+                function w3_open() {
+                if (mySidebar.style.display === 'block') {
+                    mySidebar.style.display = 'none';
+                } else {
+                    mySidebar.style.display = 'block';
+                }
+                }
+
+                // Close the sidebar with the close button
+                function w3_close() {
+                    mySidebar.style.display = "none";
+                }
+
+                function openResourcesOptionPage( categoryId, categoryName )
+                {
+                    console.log(categoryId);
+                    localStorage.setItem("categoryId", categoryId);
+                    localStorage.setItem("categoryName", categoryName);
+                    window.open("./resourcesOptions.html", "_self");
+                }
+                function logout()
+                {
+                    localStorage.clear()
+                }
+                function checkUserLoggedIn()
+                {
+                    const Http = new XMLHttpRequest();
+                    const url= returnEnvironmentURL()+'/check_user_loggedin';
+                    let username = localStorage.getItem("cybermd_username");
+                    let token = localStorage.getItem("cybermd_jwt");
+
+                    if(username == null || token == null)
+                    {
+                        window.open('./login.html','_self');
+                    }
+                    var params = JSON.stringify({"username": username, "token": token});
+                    Http.open( "POST", url );
+                    Http.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+                    Http.send(params);
+        
+                    Http.onreadystatechange = ( e ) => {
+        
+                        if (Http.readyState == 4 && Http.status == 200 && Http.responseText) 
+                        {
+                            response = JSON.parse( Http.responseText );
+
+                            if (response["status"] != "success")
+                            {
+                                window.open('./login.html','_self');
+                            }
+                        }
+                    }
+                }
+            </script>
+    </body>
+</html>

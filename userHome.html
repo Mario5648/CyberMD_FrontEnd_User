@@ -1,0 +1,192 @@
+<html>
+    <link rel="icon" href="images/brain_icon.png">
+
+    <header>
+        <title>Home</title>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300&display=swap" rel="stylesheet">        
+        <link rel="stylesheet" href="styles/contact_styles.css">
+        <link rel="stylesheet" href="styles/userHome_styles.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <script type = "text/javascript" src='./environment.js'></script>
+
+    </header>
+    <body onload="checkUserLoggedIn();getUserAnalytics()">
+
+        <!-- Navbar on small screens (remove the onclick attribute if you want the navbar to always show on top of the content when clicking on the links) -->
+        <div class="hide_desktops">
+            <!-- Navbar on small screens (remove the onclick attribute if you want the navbar to always show on top of the content when clicking on the links) -->
+            <div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none; margin-top:0px; width:500px; background-color: #EDF2F4;" id="mySidebar">
+                <div class="side-bar">
+                    <a href="javascript:void(0)" onclick="w3_close()" class="sidebar_item">Close X</a>
+                    <a href="./resources.html" onclick="w3_close()" class="sidebar_item">Resources</a>
+                    <a href="./account.html" onclick="w3_close()" class="sidebar_item">Account</a>
+                    <a href="./login.html" onclick="w3_close();logout()" class="sidebar_item">Logout</a>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="navigation_bar">
+            <div class="navbar_container">
+                <div class="navigation_bar_items">
+                    <a href="./userHome.html" class="navigation_bar_item">Home</a>
+                    <span class="show_on_desktops">
+                        <a href="./resources.html" class="hide_mobile navigation_bar_item">Resources</a>
+                        <a href="./account.html" class="hide_mobile navigation_bar_item">Account</a>
+                        <a href="./login.html" class="hide_mobile navigation_bar_item" onclick="logout()">Logout</a>
+                    </span>
+                    <a class="hide_desktops navigation_bar_item hamburger_menu" href="javascript:void(0)" onclick="w3_open()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <!--Main Section-->
+        <div class="main-section-conatiner">
+            <div class="main-section">
+                <p id="welcome_user_field" class="welcome-title">Welcome </p>
+                <p class="analytics-overview-text">Analytics Overview:</p>
+                <div class="analytics-overview-container">
+                    <div class="analytics-overview-box">
+                        <img class="analytics-icon" src="./images/question-icon.png" />
+                        <p>Total Questions Answered:</p>
+                        <p id="total_questions_field">99999</p>
+                    </div>
+                    <div class="analytics-overview-box">
+                        <img class="analytics-icon" src="./images/time-icon.png" />
+                        <p>Total Time Spent:</p>
+                        <p id="total_time_field">90 hrs : 30 mins</p>
+                    </div>
+                    <div class="analytics-overview-box">
+                        <img class="analytics-icon" src="./images/distribution-icon.png" />
+                        <p>Percentile:</p>
+                        <p id="percentile_field">90 / 100</p>
+                    </div>
+                </div>
+                <div class="analytics-container">
+                    <div class="analytics-graph-box">
+                        <p class="analytics-title-text">Question Analytics</p>
+                        <div id="grade_donut">
+                            <div class="hole">
+                                <div class="hole-container">
+                                    <p id="user_grade_field" class="question-analytics-percent-text">80%</p>
+                                    <p id="user_grade_ratio_field" class="question-analytics-percent-subtext">79999/99999</p>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <p><i class="fa fa-square correct-label-icon"></i> Correct</p>
+                        <p><i class="fa fa-square incorrect-label-icon"></i> Incorrect</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+        <script>
+            var mySidebar = document.getElementById("mySidebar");
+
+            function w3_open() {
+            if (mySidebar.style.display === 'block') {
+                mySidebar.style.display = 'none';
+            } else {
+                mySidebar.style.display = 'block';
+            }
+            }
+
+            // Close the sidebar with the close button
+            function w3_close() {
+                mySidebar.style.display = "none";
+            }
+
+
+            function populateAnalyticFields(analytics)
+            {
+                document.getElementById("total_questions_field").innerText = analytics["TotalQuestions"];
+                document.getElementById("total_time_field").innerText = analytics["TotalTime"];
+                document.getElementById("percentile_field").innerText = analytics["Percentile"];
+                document.getElementById("user_grade_field").innerText = Math.round((analytics["Correct"] / analytics["TotalQuestions"]) * 100);
+                document.getElementById("user_grade_ratio_field").innerText = analytics["Correct"].toString() +"/"+ analytics["TotalQuestions"].toString();
+
+            }
+
+
+            function adjustGradeDonut(grade)
+            {
+                let grade_degree = grade * 360;
+                document.getElementById("grade_donut").style  = "display: flex;align-items: center;justify-content: center; width: 250px; height: 250px;border-radius: 50%;background: conic-gradient(#35ccab 0deg "+grade_degree+"deg,#fa8488 "+grade_degree+"deg 360deg);" ;
+            }
+
+            function getUserAnalytics()
+            {
+                const Http = new XMLHttpRequest();
+                const url= returnEnvironmentURL()+'/get_user_analytics';
+
+                let username = localStorage.getItem("cybermd_username");
+                let user_jwt = localStorage.getItem("cybermd_jwt");
+                document.getElementById("welcome_user_field").innerText = "Welcome "+username;
+                //hashed_password = hash_password(user_password);
+                var params = JSON.stringify({"username": username, "token": user_jwt});
+                Http.open( "POST", url );
+                Http.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+                Http.send(params);
+
+                Http.onreadystatechange = ( e ) => {
+
+                    if (Http.readyState == 4 && Http.status == 200 && Http.responseText) 
+                    {
+
+                        response =  JSON.parse(Http.responseText)["analytics"];
+                        if (JSON.parse(Http.responseText)["status"] == "success")
+                        {
+                            let grade = (response["Correct"] / response["TotalQuestions"])
+                            adjustGradeDonut(grade);
+                            populateAnalyticFields(response);
+
+                        }
+                    }
+                }
+            }
+
+            function logout()
+            {
+                localStorage.clear()
+            }
+
+            function checkUserLoggedIn()
+            {
+                const Http = new XMLHttpRequest();
+                const url= returnEnvironmentURL()+'/check_user_loggedin';
+                let username = localStorage.getItem("cybermd_username");
+                let token = localStorage.getItem("cybermd_jwt");
+
+                if(username == null || token == null)
+                {
+                    window.open('./login.html','_self');
+                }
+                var params = JSON.stringify({"username": username, "token": token});
+                Http.open( "POST", url );
+                Http.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+                Http.send(params);
+    
+                Http.onreadystatechange = ( e ) => {
+    
+                    if (Http.readyState == 4 && Http.status == 200 && Http.responseText) 
+                    {
+                        response = JSON.parse( Http.responseText );
+
+                        if (response["status"] != "success")
+                        {
+                            window.open('./login.html','_self');
+                        }
+                    }
+                }
+            }
+        </script>
+    </body>
+</html>

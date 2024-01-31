@@ -1,0 +1,248 @@
+<html>
+    <link rel="icon" href="images/brain_icon.png">
+
+    <header>
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-CM0J5VHVFG"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-CM0J5VHVFG');
+        </script>
+        <title>Resources</title>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300&display=swap" rel="stylesheet">        
+        <link rel="stylesheet" href="styles/resources_styles.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <script type = "text/javascript" src='./environment.js'></script>
+    </header>
+    <body onload="checkUserLoggedIn()">
+
+        <!-- Navbar on small screens (remove the onclick attribute if you want the navbar to always show on top of the content when clicking on the links) -->
+        <div class="hide_desktops">
+            <!-- Navbar on small screens (remove the onclick attribute if you want the navbar to always show on top of the content when clicking on the links) -->
+            <div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none; margin-top:0px; width:500px; background-color: #EDF2F4;" id="mySidebar">
+                <div class="side-bar">
+                    <a href="javascript:void(0)" onclick="w3_close()" class="sidebar_item">Close X</a>
+                    <a href="./resources.html" onclick="w3_close()" class="sidebar_item">Resources</a>
+                    <a href="./account.html" onclick="w3_close()" class="sidebar_item">Account</a>
+                    <a href="./login.html" onclick="w3_close();logout()" class="sidebar_item">Logout</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="navigation_bar">
+            <div class="navbar_container">
+                <div class="navigation_bar_items">
+                    <a href="./userHome.html" class="navigation_bar_item">Home</a>
+                    <span class="show_on_desktops">
+                        <a href="./resources.html" class="hide_mobile navigation_bar_item">Resources</a>
+                        <a href="./account.html" class="hide_mobile navigation_bar_item">Account</a>
+                        <a href="./login.html" class="hide_mobile navigation_bar_item" onclick="logout()">Logout</a>
+                    </span>
+                    <a class="hide_desktops navigation_bar_item hamburger_menu" href="javascript:void(0)" onclick="w3_open()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+                </div>
+            </div>
+        </div>
+
+          <!--resource options section-->
+          <div class="section_container">
+            <!-- Resource options 
+
+                    1. Test
+                        - Modal pop up of nuber of questions left / total questions (free up questions options)
+                    2. Videos
+                        - takes to new page
+            -->
+
+            <div class="resourceOptionContainer">
+                <button id="openTestSettings" class="resourceOptionsButton"><i class="fa fa-pencil-square-o" style="font-size:60px"></i><br><br>Take Test</button>
+                <button onclick="openVideos()" class="resourceOptionsButton"><i class="fa fa-video-camera" style="font-size:60px"></i><br><br>Videos</button>
+            </div>
+
+
+          </div>
+
+          <div id="myModal" class="modal">
+
+            <!-- Modal content -->
+            <div class="modal-content">
+              <span class="close">&times;</span>
+              <p>Test Information</p><br>
+              <label for="numberOfTestQuestion">Test Type : </label><br><br>
+              <select id="testTypeSelection" onchange="getCategoryQuestionDataForUser()">
+                <option value="step1">STEP 1</option>
+                <option value="step2">STEP 2</option>
+              </select><br><br>
+              <label for="numberOfTestQuestion">Select number of questions</label><br>
+              <div class="numberOfQuestionInputStyle"><input id="numberOfTestQuestion" name="numberOfTestQuestion" class="numberOfTestQuestionStyle"></input> <p id="totalQuestionsText">/ 5000</p></div><br><br>
+              <div class="questionButtonsStyle"><button class="startTestButton" onclick="startTest()">Start Test</button> <button onclick="resetTestQuestions()" class="resetQuestionsButton">Reset Test Questions</button></div>
+            </div>
+          
+          </div>
+
+        </div>
+            <script>
+                // Get the modal
+                var modal = document.getElementById("myModal");
+
+                // Get the button that opens the modal
+                var btn = document.getElementById("openTestSettings");
+
+                // Get the <span> element that closes the modal
+                var span = document.getElementsByClassName("close")[0];
+
+                // When the user clicks on the button, open the modal
+                btn.onclick = function() {
+                modal.style.display = "block";
+                getCategoryQuestionDataForUser();
+                }
+
+                // When the user clicks on <span> (x), close the modal
+                span.onclick = function() {
+                modal.style.display = "none";
+                }
+
+                // When the user clicks anywhere outside of the modal, close it
+                window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+                }
+
+
+                var mySidebar = document.getElementById("mySidebar");
+
+                function w3_open() {
+                if (mySidebar.style.display === 'block') {
+                    mySidebar.style.display = 'none';
+                } else {
+                    mySidebar.style.display = 'block';
+                }
+                }
+
+                // Close the sidebar with the close button
+                function w3_close() {
+                    mySidebar.style.display = "none";
+                }
+
+                function startTest()
+                {
+                    
+                    if(document.getElementById('numberOfTestQuestion').value == '' )
+                    {
+                        alert("Please input a number");
+                        return;
+                    }else if(parseInt(localStorage.getItem("CYBERMD_TOTAL_QUESTIONS")) == 0)
+                    {
+                        alert("There are currently no questions for the selected categories");
+                        return;       
+                    }else if(parseInt(localStorage.getItem("CYBERMD_TOTAL_QUESTIONS")) < parseInt(document.getElementById('numberOfTestQuestion').value))
+                    {
+                        alert("Please use a lower number that is lower than the total number of questions");
+                        return;
+                    }
+                    localStorage.setItem("testType", document.getElementById("testTypeSelection").value);
+                    localStorage.setItem("userQuestionAmount", document.getElementById('numberOfTestQuestion').value);
+                    window.open("./testAppUI.html", "_self");
+                }
+                function logout()
+                {
+                    localStorage.clear()
+                }
+
+                function resetTestQuestions()
+                {
+                    const Http = new XMLHttpRequest();
+                    const url= returnEnvironmentURL()+'/resetTestQuestionsForUser';
+                    let username = localStorage.getItem("cybermd_username");
+                    let token = localStorage.getItem("cybermd_jwt");
+                    let testType = document.getElementById("testTypeSelection").value;
+
+                    var params = JSON.stringify({"username": username, "token": token, "selectedQuestionCategory": localStorage.getItem("categoryName"), "testType": testType});
+                    Http.open( "POST", url );
+                    Http.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+                    Http.send(params);
+        
+                    Http.onreadystatechange = ( e ) => {
+        
+                        if (Http.readyState == 4 && Http.status == 200 && Http.responseText) 
+                        {
+                            response = JSON.parse( Http.responseText );
+
+                            if (response["status"] == "success")
+                            {
+                                alert("Successfully cleared question history! You may now retake questions that have been seen before.");
+                                location.reload();
+                            }
+                        }
+                    }
+                }
+                function checkUserLoggedIn()
+                {
+                    const Http = new XMLHttpRequest();
+                    const url= returnEnvironmentURL()+'/check_user_loggedin';
+                    let username = localStorage.getItem("cybermd_username");
+                    let token = localStorage.getItem("cybermd_jwt");
+
+                    if(username == null || token == null)
+                    {
+                        window.open('./login.html','_self');
+                    }
+                    var params = JSON.stringify({"username": username, "token": token});
+                    Http.open( "POST", url );
+                    Http.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+                    Http.send(params);
+        
+                    Http.onreadystatechange = ( e ) => {
+        
+                        if (Http.readyState == 4 && Http.status == 200 && Http.responseText) 
+                        {
+                            response = JSON.parse( Http.responseText );
+
+                            if (response["status"] != "success")
+                            {
+                                window.open('./login.html','_self');
+                            }
+                        }
+                    }
+                }
+
+                function getCategoryQuestionDataForUser()
+                {
+                    const Http = new XMLHttpRequest();
+                    const url= returnEnvironmentURL()+'/getCategoryQuestionDataForUser';
+                    let username = localStorage.getItem("cybermd_username");
+                    let token = localStorage.getItem("cybermd_jwt");
+                    let testType = document.getElementById("testTypeSelection").value;
+
+                    var params = JSON.stringify({"username": username, "token": token, "selectedQuestionCategory": localStorage.getItem("categoryName"), "testType":testType});
+                    Http.open( "POST", url );
+                    Http.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+                    Http.send(params);
+        
+                    Http.onreadystatechange = ( e ) => {
+        
+                        if (Http.readyState == 4 && Http.status == 200 && Http.responseText) 
+                        {
+                            response = JSON.parse( Http.responseText );
+
+                            if (response["status"] == "success")
+                            {
+                                document.getElementById('totalQuestionsText').innerHTML = ` / ${response['remainingQuestions']}`
+                                localStorage.setItem('CYBERMD_TOTAL_QUESTIONS', response['remainingQuestions'])
+                            }
+                        }
+                    }
+                }
+
+                function openVideos()
+                {
+                    window.open("./resource_videos.html", "_self");
+                }
+            </script>
+    </body>
+</html>

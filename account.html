@@ -1,0 +1,164 @@
+<html>
+    <link rel="icon" href="images/brain_icon.png">
+
+    <header>
+        <title>Account</title>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300&display=swap" rel="stylesheet">        
+        <link rel="stylesheet" href="styles/contact_styles.css">
+        <link rel="stylesheet" href="styles/account_styles.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <script type = "text/javascript" src='./environment.js'></script>
+    </header>
+    <body onload="checkUserLoggedIn()">
+
+        <!-- Navbar on small screens (remove the onclick attribute if you want the navbar to always show on top of the content when clicking on the links) -->
+        <div class="hide_desktops">
+            <!-- Navbar on small screens (remove the onclick attribute if you want the navbar to always show on top of the content when clicking on the links) -->
+            <div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none; margin-top:0px; width:500px; background-color: #EDF2F4;" id="mySidebar">
+                <div class="side-bar">
+                    <a href="javascript:void(0)" onclick="w3_close()" class="sidebar_item">Close X</a>
+                    <a href="./resources.html" onclick="w3_close()" class="sidebar_item">Resources</a>
+                    <a href="./account.html" onclick="w3_close()" class="sidebar_item">Account</a>
+                    <a href="./login.html" onclick="w3_close();logout()" class="sidebar_item">Logout</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="navigation_bar">
+            <div class="navbar_container">
+                <div class="navigation_bar_items">
+                    <a href="./userHome.html" class="navigation_bar_item">Home</a>
+                    <span class="show_on_desktops">
+                        <a href="./resources.html" class="hide_mobile navigation_bar_item">Resources</a>
+                        <a href="./account.html" class="hide_mobile navigation_bar_item">Account</a>
+                        <a href="./login.html" class="hide_mobile navigation_bar_item" onclick="logout()">Logout</a>
+                    </span>
+                    <a class="hide_desktops navigation_bar_item hamburger_menu" href="javascript:void(0)" onclick="w3_open()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <!--Main Section-->
+        <div class="account-section-container">
+            <div class="text-section">
+                <p class="account-title">Account Settings</p>
+                <p class="account-subtext">Change your profile and account settings</p>
+            </div>
+
+            <div class="account-setting-box-container">
+                <div class="account-setting-box">
+                    <div class="account-setting-menu">
+                        <a href="./account.html"><p class="account-menu-text"><i class="fa fa-user"></i> Email</p></a>
+                        <a href="./account_password.html"><p class="account-menu-text"><i class="fa fa-lock"></i> Password</p></a>
+                    </div>
+                    <hr class="seperation-line">
+                    <div class="account-setting-info">
+                        <div class="account-input-section">
+                            <label class="input-label" for="user_current_email">Current Email</label>
+                            <input class="input-box" type="email" id="user_current_email" name="user_current_email"><br>
+
+                            <label class="input-label" for="user_new_email">New Email</label>
+                            <input class="input-box" type="email" id="user_new_email" name="user_new_email"><br>
+        
+                        </div>
+                        <br>
+                        <button class="update-button" onclick="updateUserEmail()">Update</button>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+
+
+
+
+
+
+
+        <script>
+            var mySidebar = document.getElementById("mySidebar");
+
+            function w3_open() {
+            if (mySidebar.style.display === 'block') {
+                mySidebar.style.display = 'none';
+            } else {
+                mySidebar.style.display = 'block';
+            }
+            }
+
+            // Close the sidebar with the close button
+            function w3_close() {
+                mySidebar.style.display = "none";
+            }
+
+
+            function updateUserEmail()
+            {
+                const Http = new XMLHttpRequest();
+                const url= returnEnvironmentURL()+'/user_update_email';
+                let username = localStorage.getItem("cybermd_username");
+                let token = localStorage.getItem("cybermd_jwt");
+                let current_email = document.getElementById("user_current_email").value;
+                let new_email = document.getElementById("user_new_email").value;
+                var params = JSON.stringify({"username": username, "userToken": token,  "oldEmail": current_email, "newEmail":new_email});
+                Http.open( "POST", url );
+                Http.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+                Http.send(params);
+    
+                Http.onreadystatechange = ( e ) => {
+    
+                    if (Http.readyState == 4 && Http.status == 200 && Http.responseText) 
+                    {
+                        response = JSON.parse( Http.responseText );
+
+                        if (response["status"] == "success")
+                        {
+                            console.log(response);
+                            alert("Email Successfully Updated!");
+                            location.reload()
+                        }else
+                        {
+                            console.log(response);
+                            alert("Email Failed to Updated! Email is Already Taken or You Entered The Wrong Email For This Account!");
+                        }
+                    }
+                }
+            }
+            function logout()
+            {
+                localStorage.clear()
+            }
+            function checkUserLoggedIn()
+            {
+                const Http = new XMLHttpRequest();
+                const url= returnEnvironmentURL()+'/check_user_loggedin';
+                let username = localStorage.getItem("cybermd_username");
+                let token = localStorage.getItem("cybermd_jwt");
+
+                if(username == null || token == null)
+                {
+                    window.open('./login.html','_self');
+                }
+                var params = JSON.stringify({"username": username, "token": token});
+                Http.open( "POST", url );
+                Http.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+                Http.send(params);
+    
+                Http.onreadystatechange = ( e ) => {
+    
+                    if (Http.readyState == 4 && Http.status == 200 && Http.responseText) 
+                    {
+                        response = JSON.parse( Http.responseText );
+
+                        if (response["status"] != "success")
+                        {
+                            window.open('./login.html','_self');
+                        }
+                    }
+                }
+            }
+        </script>
+    </body>
+</html>

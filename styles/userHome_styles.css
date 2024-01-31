@@ -1,0 +1,144 @@
+body
+{
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+    background-color: #f5f5f5;
+}
+
+.main-section-conatiner
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.main-section
+{
+    width: 100%;
+    max-width: 1200px;
+
+    margin-top: 30px;
+
+    height: 1000px;
+}
+
+.welcome-title
+{
+    padding-left: 30;
+    font-size: 30px;
+    font-weight: 500;
+}
+
+.analytics-overview-text
+{
+    font-size: 16px;
+    padding: 30 30 30 30;
+}
+
+.analytics-overview-container
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 30px;
+
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+}
+
+.analytics-icon
+{
+    width:50px;
+}
+
+.analytics-overview-box
+{
+    width: 100%;
+    max-width: 300px;
+    height: 200px;
+    background-color: #fdfdfd;
+    border-radius: 10px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding-top: 20px;
+
+    border-style: solid;
+    border-color: #fdfdfd;
+    box-shadow: 5px 5px 10px #888888;
+}
+
+.analytics-container
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.analytics-graph-box
+{
+    width: 450px;
+    height: 500px;
+    background-color: #fdfdfd;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+    border-style: solid;
+    border-color: #fdfdfd;
+    box-shadow: 5px 5px 10px #888888;
+}
+
+.analytics-title-text
+{
+    font-size: 20px;
+    font-weight: 600;
+}
+
+
+.hole 
+{
+    width: 220px; 
+    height: 220px;
+    border-radius: 50%;
+    background: #fdfdfd;
+}
+   
+
+.hole-container
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    height: 220px;
+}
+
+.question-analytics-percent-text
+{
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.question-analytics-percent-subtext
+{
+    margin-top: -20px;
+    font-size: 16px;
+}
+
+.correct-label-icon
+{
+    color:#35ccab;
+}
+
+.incorrect-label-icon
+{
+    color:#fa8488;
+}
