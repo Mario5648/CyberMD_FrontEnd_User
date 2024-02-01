@@ -6,5 +6,5 @@ function returnEnvironmentURL()
     {
         return `http://127.0.0.1:5000`
     }
-    return 'https://thecybermd-testingapp-prod.azurewebsites.net'
+    return 'https://api-cybermd.com'
 }
