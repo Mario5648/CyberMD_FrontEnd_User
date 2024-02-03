@@ -108,7 +108,7 @@
             function populateAnalyticFields(analytics)
             {
                 document.getElementById("total_questions_field").innerText = analytics["TotalQuestions"];
-                document.getElementById("total_time_field").innerText = String((analytics["TotalTime"] / 60)) + "minutes";
+                document.getElementById("total_time_field").innerText = String((analytics["TotalTime"] / 60)) + " minutes";
                 document.getElementById("percentile_field").innerText = analytics["Percentile"];
                 document.getElementById("user_grade_field").innerText = Math.round((analytics["Correct"] / analytics["TotalQuestions"]) * 100);
                 document.getElementById("user_grade_ratio_field").innerText = analytics["Correct"].toString() +"/"+ analytics["TotalQuestions"].toString();
