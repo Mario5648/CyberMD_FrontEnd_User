@@ -19,7 +19,7 @@
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
         <script type = "text/javascript" src='./environment.js'></script>
     </header>
-    <body onload="checkUserLoggedIn()">
+    <body onload="checkUserLoggedIn();populateTestCategoryText();">
 
         <!-- Navbar on small screens (remove the onclick attribute if you want the navbar to always show on top of the content when clicking on the links) -->
         <div class="hide_desktops">
@@ -72,10 +72,14 @@
             <div class="modal-content">
               <span class="close">&times;</span>
               <p>Test Information</p><br>
+              <p id="testCategoryText"></p>
               <label for="numberOfTestQuestion">Test Type : </label><br><br>
               <select id="testTypeSelection" onchange="getCategoryQuestionDataForUser()">
                 <option value="step1">STEP 1</option>
                 <option value="step2">STEP 2</option>
+              </select><br><br>
+              <label for="testQuestionSubCategory">Question Sub Category : </label><br><br>
+              <select id="testQuestionSubCategory" onchange="getCategoryQuestionDataForUser()">
               </select><br><br>
               <label for="numberOfTestQuestion">Select number of questions</label><br>
               <div class="numberOfQuestionInputStyle"><input id="numberOfTestQuestion" name="numberOfTestQuestion" class="numberOfTestQuestionStyle"></input> <p id="totalQuestionsText">/ 0</p></div><br><br>
@@ -86,6 +90,154 @@
 
         </div>
             <script>
+
+                var CATEGORY_MAPPER = {
+
+                        "Biochemistry":
+                        [
+                            "All",
+                            "Molecular",
+                            "Cellular",
+                            "Laboratory Techniques",
+                            "Genetics",
+                            "Nutrition",
+                            "Metabolism",
+                        ],
+                        "Microbiology":
+                        [
+                            "All",
+                            "Basic bacteriology",
+                            "Clinical bacteriology",
+                            "Mycology",
+                            "Parasitology",
+                            "Virology",
+                            "Systems",
+                            "Antimicrobials",
+                        ],
+                        "Pathology":
+                        [
+                            "All",
+                            "Cellular Injury",
+                            "Inflammation",
+                            "Neoplasia",
+                        ],
+                        "Pharmacology":
+                        [
+                            "All",
+                            "Pharmacokinetics and Pharmacodynamics",
+                            "Autonomic Drugs",
+                            "Toxicities and Side Effects",
+                            "Miscellaneous",
+                        ],
+                        "Public Health Sciences":
+                        [
+                            "All",
+                            "Epidemiology and Biostatistics",
+                            "Ethics",
+                            "Communication Skills",
+                            "Healthcare Delivery",
+                            "Quality and Safety",
+                        ],
+                        "Immunology":
+                        [
+                            "All",
+                            "Lymphoid Structures",
+                            "Cellular Components",
+                            "Immune Responses",
+                            "Immunosuppressants",
+                        ],
+
+
+                        "Cardiovascular":
+                        [
+                            "All",
+                            "Embryology",
+                            "Anatomy",
+                            "Physiology",
+                            "Pathology",
+                            "Pharmacology",
+                        ],
+                        "Endocrine":
+                        [
+                            "All",
+                            "Embryology",
+                            "Anatomy",
+                            "Physiology",
+                            "Pathology",
+                            "Pharmacology",
+                        ],
+                        "Gastrointestinal":
+                        [
+                            "All",
+                            "Embryology",
+                            "Anatomy",
+                            "Physiology",
+                            "Pathology",
+                            "Pharmacology",
+                        ],
+                        "Hematology/Oncology":
+                        [
+                            "All",
+                            "Embryology",
+                            "Anatomy",
+                            "Physiology",
+                            "Pathology",
+                            "Pharmacology",
+                        ],
+                        "Musculoskeletal/Dermatology":
+                        [
+                            "All",
+                            "Anatomy and Physiology",
+                            "Pathology",
+                            "Dermatology",
+                            "Pharmacology",
+                        ],
+                        "Nervous System/Special Senses":
+                        [
+                            "All",
+                            "Embryology",
+                            "Anatomy & Physiology",
+                            "Pathology",
+                            "Otology",
+                            "Ophthalmology",
+                            "Pharmacology",
+                        ],
+                        "Behavioral Health":
+                        [
+                            "All",
+                            "Psychology",
+                            "Pathology",
+                            "Pharmacology",
+                        ],
+                        "Renal":
+                        [
+                            "All", 
+                            "Embryology",
+                            "Anatomy",
+                            "Physiology",
+                            "Pathology",
+                            "Pharmacology",
+                        ],
+                        "Reproductive":
+                        [
+                            "All",
+                            "Embryology",
+                            "Anatomy",
+                            "Physiology",
+                            "Pathology",
+                            "Pharmacology",
+                        ],
+                        "Respiratory":
+                        [
+                            "All",
+                            "Embryology",
+                            "Anatomy",
+                            "Physiology",
+                            "Pathology",
+                            "Pharmacology",
+                        ]
+                    
+                }
                 // Get the modal
                 var modal = document.getElementById("myModal");
 
@@ -98,6 +250,7 @@
                 // When the user clicks on the button, open the modal
                 btn.onclick = function() {
                 modal.style.display = "block";
+                populateSubCategoryField();
                 getCategoryQuestionDataForUser();
                 }
 
@@ -146,6 +299,7 @@
                         return;
                     }
                     localStorage.setItem("testType", document.getElementById("testTypeSelection").value);
+                    localStorage.setItem("subCategoryName", document.getElementById("testQuestionSubCategory").value);
                     localStorage.setItem("userQuestionAmount", document.getElementById('numberOfTestQuestion').value);
                     window.open("./testAppUI.html", "_self");
                 }
@@ -218,8 +372,9 @@
                     let username = localStorage.getItem("cybermd_username");
                     let token = localStorage.getItem("cybermd_jwt");
                     let testType = document.getElementById("testTypeSelection").value;
+                    let subCategory = document.getElementById("testQuestionSubCategory").value;
 
-                    var params = JSON.stringify({"username": username, "token": token, "selectedQuestionCategory": localStorage.getItem("categoryName"), "testType":testType});
+                    var params = JSON.stringify({"username": username, "token": token, "selectedQuestionCategory": localStorage.getItem("categoryName"), "questionSubCategory": subCategory,  "testType":testType});
                     Http.open( "POST", url );
                     Http.setRequestHeader('Content-type', 'application/json; charset=utf-8');
                     Http.send(params);
@@ -242,6 +397,28 @@
                 function openVideos()
                 {
                     window.open("./resource_videos.html", "_self");
+                }
+
+                function populateSubCategoryField()
+                {
+                    let selectedQuestionCategory = localStorage.getItem("categoryName");
+                    let subCategories = CATEGORY_MAPPER[selectedQuestionCategory];
+                    if(subCategories == null)
+                    {
+                        document.getElementById("testQuestionSubCategory").innerHTML = `<option value="All">All</option>`;
+                        return;
+                    }
+                    let selectionHtml = ``;
+                    for(let i = 0; i < subCategories.length; i ++)
+                    {
+                        selectionHtml += `<option value="${subCategories[i]}">${subCategories[i]}</option>`;
+                    }
+                    document.getElementById("testQuestionSubCategory").innerHTML = selectionHtml;
+                }
+
+                function populateTestCategoryText()
+                {
+                    document.getElementById('testCategoryText').innerHTML = "Question Categories : "+localStorage.getItem("categoryName");
                 }
             </script>
     </body>

@@ -219,11 +219,12 @@
                 let token = localStorage.getItem("cybermd_jwt")
                 let categoryName = localStorage.getItem("categoryName");
                 let numberOfQuestions = parseInt(localStorage.getItem("userQuestionAmount"));
+                let subCategory = localStorage.getItem("subCategoryName");
                 let testType = localStorage.getItem("testType");
 
                 const Http = new XMLHttpRequest();
                 const url= returnEnvironmentURL()+`/get_questions`;
-                var params = JSON.stringify({"questionCategory":categoryName, "username": username, "token": token, "numberOfQuestions":numberOfQuestions, "testType":testType})
+                var params = JSON.stringify({"questionCategory":categoryName, "username": username, "token": token, "numberOfQuestions":numberOfQuestions, "subCategory":subCategory, "testType":testType})
                 Http.open( "POST", url );
                 Http.setRequestHeader('Content-type', 'application/json; charset=utf-8');
                 Http.send(params);
